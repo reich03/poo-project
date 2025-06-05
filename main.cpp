@@ -18,7 +18,8 @@
 
 // ==================== MEJORAS VISUALES Y DE INTERFAZ ====================
 
-class InterfazMejorada {
+class InterfazMejorada
+{
 public:
     // Colores ANSI para consola
     static const std::string RESET;
@@ -32,21 +33,24 @@ public:
     static const std::string NEGRITA;
 
     // Limpiar pantalla multiplataforma
-    static void limpiarPantalla() {
-        #ifdef _WIN32
-            system("cls");
-        #else
-            system("clear");
-        #endif
+    static void limpiarPantalla()
+    {
+#ifdef _WIN32
+        system("cls");
+#else
+        system("clear");
+#endif
     }
 
     // Animación de carga (SIN ICONOS)
-    static void mostrarCarga(const std::string& mensaje, int duracion_ms = 1500) {
+    static void mostrarCarga(const std::string &mensaje, int duracion_ms = 1500)
+    {
         std::cout << AMARILLO << mensaje;
         char animacion[] = {'|', '/', '-', '\\'};
         int pasos = duracion_ms / 100;
-        
-        for (int i = 0; i < pasos; ++i) {
+
+        for (int i = 0; i < pasos; ++i)
+        {
             std::cout << " " << CYAN << animacion[i % 4] << "\r" << AMARILLO << mensaje;
             std::cout.flush();
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -55,7 +59,8 @@ public:
     }
 
     // Banner animado (SIN ICONOS)
-    static void mostrarBannerInicio() {
+    static void mostrarBannerInicio()
+    {
         limpiarPantalla();
         std::cout << CYAN << NEGRITA;
         std::string lineas[] = {
@@ -65,10 +70,10 @@ public:
             "||                                                            ||",
             "||         Frutas * Verduras * Carnes * Individuales         ||",
             "||                                                            ||",
-            "================================================================"
-        };
+            "================================================================"};
 
-        for (const auto& linea : lineas) {
+        for (const auto &linea : lineas)
+        {
             std::cout << linea << std::endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(150));
         }
@@ -76,17 +81,23 @@ public:
     }
 
     // Mostrar notificación con estilo (SIN ICONOS)
-    static void mostrarNotificacion(const std::string& mensaje, const std::string& tipo = "info") {
+    static void mostrarNotificacion(const std::string &mensaje, const std::string &tipo = "info")
+    {
         std::string color = AZUL;
         std::string prefijo = "[INFO]";
-        
-        if (tipo == "exito") {
+
+        if (tipo == "exito")
+        {
             color = VERDE;
             prefijo = "[EXITO]";
-        } else if (tipo == "error") {
+        }
+        else if (tipo == "error")
+        {
             color = ROJO;
             prefijo = "[ERROR]";
-        } else if (tipo == "advertencia") {
+        }
+        else if (tipo == "advertencia")
+        {
             color = AMARILLO;
             prefijo = "[ADVERTENCIA]";
         }
@@ -95,13 +106,15 @@ public:
     }
 
     // Título con estilo (SIN ICONOS)
-    static void mostrarTitulo(const std::string& titulo) {
+    static void mostrarTitulo(const std::string &titulo)
+    {
         std::cout << CYAN << NEGRITA << "\n+--" << std::string(titulo.length() + 2, '-') << "--+" << std::endl;
         std::cout << "|  " << titulo << "  |" << std::endl;
         std::cout << "+--" << std::string(titulo.length() + 2, '-') << "--+" << RESET << std::endl;
     }
 
-    static void pausar() {
+    static void pausar()
+    {
         std::cout << AMARILLO << "\n>> Presione Enter para continuar..." << RESET;
         std::cin.ignore();
         std::cin.get();
@@ -119,129 +132,340 @@ const std::string InterfazMejorada::CYAN = "\033[36m";
 const std::string InterfazMejorada::BLANCO = "\033[37m";
 const std::string InterfazMejorada::NEGRITA = "\033[1m";
 
+// ==================== MEJORAS DE DISEÑO PARA FACTURAS Y REPORTES ====================
+
+class DisenoMejorado
+{
+public:
+    // Caracteres para diseño de cajas y bordes
+    static const std::string ESQUINA_SUP_IZQ;
+    static const std::string ESQUINA_SUP_DER;
+    static const std::string ESQUINA_INF_IZQ;
+    static const std::string ESQUINA_INF_DER;
+    static const std::string LINEA_HOR;
+    static const std::string LINEA_VER;
+    static const std::string T_SUPERIOR;
+    static const std::string T_INFERIOR;
+    static const std::string T_IZQUIERDA;
+    static const std::string T_DERECHA;
+    static const std::string CRUZ;
+
+    // Crear caja decorativa
+    static void crearCaja(const std::string &contenido, int ancho = 70)
+    {
+        std::cout << InterfazMejorada::CYAN;
+
+        // Línea superior
+        std::cout << ESQUINA_SUP_IZQ;
+        for (int i = 0; i < ancho - 2; i++)
+            std::cout << LINEA_HOR;
+        std::cout << ESQUINA_SUP_DER << std::endl;
+
+        // Contenido centrado
+        int padding = (ancho - contenido.length() - 2) / 2;
+        std::cout << LINEA_VER;
+        for (int i = 0; i < padding; i++)
+            std::cout << " ";
+        std::cout << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << contenido << InterfazMejorada::CYAN;
+        for (int i = 0; i < ancho - contenido.length() - padding - 2; i++)
+            std::cout << " ";
+        std::cout << LINEA_VER << std::endl;
+
+        // Línea inferior
+        std::cout << ESQUINA_INF_IZQ;
+        for (int i = 0; i < ancho - 2; i++)
+            std::cout << LINEA_HOR;
+        std::cout << ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
+    }
+
+    // Header de empresa elegante
+    static void mostrarHeaderEmpresa()
+    {
+        std::cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA;
+
+        // Marco superior decorativo
+        std::cout << "\n"
+                  << ESQUINA_SUP_IZQ;
+        for (int i = 0; i < 68; i++)
+            std::cout << LINEA_HOR;
+        std::cout << ESQUINA_SUP_DER << std::endl;
+
+        // Información de la empresa
+        std::cout << LINEA_VER << "                    " << InterfazMejorada::VERDE << "SUPERMERCADO PRODUCTOS FRESCOS" << InterfazMejorada::CYAN << "                    " << LINEA_VER << std::endl;
+        std::cout << LINEA_VER << "                         " << InterfazMejorada::BLANCO << "Frutas - Verduras - Carnes" << InterfazMejorada::CYAN << "                        " << LINEA_VER << std::endl;
+        std::cout << LINEA_VER << "                                                                  " << LINEA_VER << std::endl;
+        std::cout << LINEA_VER << "  " << InterfazMejorada::BLANCO << "Tel: (601) 555-0123  |  Email: ventas@productosfrescos.com" << InterfazMejorada::CYAN << "   " << LINEA_VER << std::endl;
+        std::cout << LINEA_VER << "           " << InterfazMejorada::BLANCO << "Calle 85 #45-23, Barranquilla, Atlantico" << InterfazMejorada::CYAN << "            " << LINEA_VER << std::endl;
+
+        // Marco inferior decorativo
+        std::cout << ESQUINA_INF_IZQ;
+        for (int i = 0; i < 68; i++)
+            std::cout << LINEA_HOR;
+        std::cout << ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
+    }
+
+    // Separador decorativo
+    static void mostrarSeparador(char caracter = '=', int longitud = 70, const std::string &color = InterfazMejorada::CYAN)
+    {
+        std::cout << color;
+        for (int i = 0; i < longitud; i++)
+        {
+            std::cout << caracter;
+        }
+        std::cout << InterfazMejorada::RESET << std::endl;
+    }
+
+    // Tabla con bordes elegantes
+    static void iniciarTabla(const std::vector<std::string> &headers, const std::vector<int> &anchos)
+    {
+        std::cout << InterfazMejorada::CYAN;
+
+        // Línea superior
+        std::cout << ESQUINA_SUP_IZQ;
+        for (size_t i = 0; i < headers.size(); i++)
+        {
+            for (int j = 0; j < anchos[i]; j++)
+                std::cout << LINEA_HOR;
+            if (i < headers.size() - 1)
+                std::cout << T_SUPERIOR;
+        }
+        std::cout << ESQUINA_SUP_DER << std::endl;
+
+        // Headers
+        std::cout << LINEA_VER;
+        for (size_t i = 0; i < headers.size(); i++)
+        {
+            std::cout << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA
+                      << std::left << std::setw(anchos[i]) << headers[i]
+                      << InterfazMejorada::CYAN;
+            if (i < headers.size() - 1)
+                std::cout << LINEA_VER;
+        }
+        std::cout << LINEA_VER << InterfazMejorada::RESET << std::endl;
+
+        // Línea separadora
+        std::cout << InterfazMejorada::CYAN << T_IZQUIERDA;
+        for (size_t i = 0; i < headers.size(); i++)
+        {
+            for (int j = 0; j < anchos[i]; j++)
+                std::cout << LINEA_HOR;
+            if (i < headers.size() - 1)
+                std::cout << CRUZ;
+        }
+        std::cout << T_DERECHA << InterfazMejorada::RESET << std::endl;
+    }
+
+    static void filaTabla(const std::vector<std::string> &datos, const std::vector<int> &anchos, const std::string &color = InterfazMejorada::BLANCO)
+    {
+        std::cout << InterfazMejorada::CYAN << LINEA_VER << color;
+        for (size_t i = 0; i < datos.size(); i++)
+        {
+            std::cout << std::left << std::setw(anchos[i]) << datos[i];
+            if (i < datos.size() - 1)
+                std::cout << InterfazMejorada::CYAN << LINEA_VER << color;
+        }
+        std::cout << InterfazMejorada::CYAN << LINEA_VER << InterfazMejorada::RESET << std::endl;
+    }
+
+    static void finalizarTabla(const std::vector<int> &anchos)
+    {
+        std::cout << InterfazMejorada::CYAN << ESQUINA_INF_IZQ;
+        for (size_t i = 0; i < anchos.size(); i++)
+        {
+            for (int j = 0; j < anchos[i]; j++)
+                std::cout << LINEA_HOR;
+            if (i < anchos.size() - 1)
+                std::cout << T_INFERIOR;
+        }
+        std::cout << ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
+    }
+
+    // Resumen de totales elegante
+    static void mostrarResumenTotales(const class Factura &factura);
+
+    // Footer profesional
+    static void mostrarFooterFactura()
+    {
+        std::cout << "\n"
+                  << InterfazMejorada::CYAN;
+        mostrarSeparador('-', 70);
+
+        std::cout << InterfazMejorada::BLANCO << "                     " << InterfazMejorada::NEGRITA << "GRACIAS POR SU COMPRA!" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "                 Conserve este recibo como respaldo" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "             Para devoluciones presentar dentro de 30 dias" << InterfazMejorada::RESET << std::endl;
+
+        mostrarSeparador('-', 70, InterfazMejorada::CYAN);
+    }
+};
+
+// Definición de caracteres de diseño (usando caracteres ASCII estándar)
+const std::string DisenoMejorado::ESQUINA_SUP_IZQ = "+";
+const std::string DisenoMejorado::ESQUINA_SUP_DER = "+";
+const std::string DisenoMejorado::ESQUINA_INF_IZQ = "+";
+const std::string DisenoMejorado::ESQUINA_INF_DER = "+";
+const std::string DisenoMejorado::LINEA_HOR = "-";
+const std::string DisenoMejorado::LINEA_VER = "|";
+const std::string DisenoMejorado::T_SUPERIOR = "+";
+const std::string DisenoMejorado::T_INFERIOR = "+";
+const std::string DisenoMejorado::T_IZQUIERDA = "+";
+const std::string DisenoMejorado::T_DERECHA = "+";
+const std::string DisenoMejorado::CRUZ = "+";
+
 // ==================== SISTEMA DE VALIDACIONES ====================
 
-class Validador {
+class Validador
+{
 public:
-    static bool validarEntero(const std::string& entrada, int& resultado, int min = INT_MIN, int max = INT_MAX) {
-        try {
+    static bool validarEntero(const std::string &entrada, int &resultado, int min = INT_MIN, int max = INT_MAX)
+    {
+        try
+        {
             size_t pos;
             resultado = std::stoi(entrada, &pos);
-            
-            if (pos != entrada.length()) return false;
+
+            if (pos != entrada.length())
+                return false;
             return resultado >= min && resultado <= max;
-        } catch (...) {
+        }
+        catch (...)
+        {
             return false;
         }
     }
 
-    static bool validarDouble(const std::string& entrada, double& resultado, double min = -DBL_MAX, double max = DBL_MAX) {
-        try {
+    static bool validarDouble(const std::string &entrada, double &resultado, double min = -DBL_MAX, double max = DBL_MAX)
+    {
+        try
+        {
             size_t pos;
             resultado = std::stod(entrada, &pos);
-            
-            if (pos != entrada.length()) return false;
+
+            if (pos != entrada.length())
+                return false;
             return resultado >= min && resultado <= max;
-        } catch (...) {
+        }
+        catch (...)
+        {
             return false;
         }
     }
 
-    static bool validarCadenaNoVacia(const std::string& entrada) {
+    static bool validarCadenaNoVacia(const std::string &entrada)
+    {
         return !entrada.empty() && entrada.find_first_not_of(" \t\n\r") != std::string::npos;
     }
 
-    static std::string leerEntradaSegura(const std::string& prompt, bool permitirVacio = false) {
+    static std::string leerEntradaSegura(const std::string &prompt, bool permitirVacio = false)
+    {
         std::string entrada;
-        do {
+        do
+        {
             std::cout << InterfazMejorada::CYAN << prompt << InterfazMejorada::RESET;
             std::getline(std::cin, entrada);
-            
-            if (permitirVacio || validarCadenaNoVacia(entrada)) {
+
+            if (permitirVacio || validarCadenaNoVacia(entrada))
+            {
                 break;
             }
-            
+
             InterfazMejorada::mostrarNotificacion("La entrada no puede estar vacia. Intente nuevamente.", "error");
         } while (true);
-        
+
         return entrada;
     }
 
-    static int leerEnteroSeguro(const std::string& prompt, int min = INT_MIN, int max = INT_MAX) {
+    static int leerEnteroSeguro(const std::string &prompt, int min = INT_MIN, int max = INT_MAX)
+    {
         std::string entrada;
         int resultado;
-        
-        do {
+
+        do
+        {
             entrada = leerEntradaSegura(prompt);
-            
-            if (validarEntero(entrada, resultado, min, max)) {
+
+            if (validarEntero(entrada, resultado, min, max))
+            {
                 break;
             }
-            
+
             InterfazMejorada::mostrarNotificacion(
-                "Entrada invalida. Ingrese un numero entre " + 
-                std::to_string(min) + " y " + std::to_string(max), "error"
-            );
+                "Entrada invalida. Ingrese un numero entre " +
+                    std::to_string(min) + " y " + std::to_string(max),
+                "error");
         } while (true);
-        
+
         return resultado;
     }
 
-    static double leerDoubleSeguro(const std::string& prompt, double min = -DBL_MAX, double max = DBL_MAX) {
+    static double leerDoubleSeguro(const std::string &prompt, double min = -DBL_MAX, double max = DBL_MAX)
+    {
         std::string entrada;
         double resultado;
-        
-        do {
+
+        do
+        {
             entrada = leerEntradaSegura(prompt);
-            
-            if (validarDouble(entrada, resultado, min, max)) {
+
+            if (validarDouble(entrada, resultado, min, max))
+            {
                 break;
             }
-            
+
             InterfazMejorada::mostrarNotificacion(
-                "Entrada invalida. Ingrese un numero valido mayor a 0.", "error"
-            );
+                "Entrada invalida. Ingrese un numero valido mayor a 0.", "error");
         } while (true);
-        
+
         return resultado;
     }
 };
 
 // ==================== SISTEMA DE NOTIFICACIONES ====================
 
-class SistemaNotificaciones {
+class SistemaNotificaciones
+{
 private:
     static std::vector<std::string> alertas_pendientes;
-    
+
 public:
-    static void limpiarAlertas() {
+    static void limpiarAlertas()
+    {
         alertas_pendientes.clear();
     }
 
-    static void agregarAlerta(const std::string& mensaje) {
+    static void agregarAlerta(const std::string &mensaje)
+    {
         // Evitar duplicados
-        if (std::find(alertas_pendientes.begin(), alertas_pendientes.end(), mensaje) == alertas_pendientes.end()) {
+        if (std::find(alertas_pendientes.begin(), alertas_pendientes.end(), mensaje) == alertas_pendientes.end())
+        {
             alertas_pendientes.push_back(mensaje);
         }
     }
 
-    static void mostrarAlertas() {
-        if (!alertas_pendientes.empty()) {
+    static void mostrarAlertas()
+    {
+        if (!alertas_pendientes.empty())
+        {
             std::cout << InterfazMejorada::AMARILLO << "[!] ALERTAS PENDIENTES:" << InterfazMejorada::RESET << std::endl;
-            for (const auto& alerta : alertas_pendientes) {
+            for (const auto &alerta : alertas_pendientes)
+            {
                 std::cout << "  - " << alerta << std::endl;
             }
             std::cout << std::endl;
         }
     }
 
-    template<typename ProductoType>
-    static void verificarStockBajo(const std::vector<ProductoType>& productos) {
+    template <typename ProductoType>
+    static void verificarStockBajo(const std::vector<ProductoType> &productos)
+    {
         limpiarAlertas(); // Limpiar alertas anteriores
-        for (const auto& p : productos) {
-            if (p.getCantidad() < 5) {
+        for (const auto &p : productos)
+        {
+            if (p.getCantidad() < 5)
+            {
                 agregarAlerta("Stock CRITICO: " + p.getNombre() + " (" + std::to_string(p.getCantidad()) + " unidades)");
-            } else if (p.getCantidad() < 15) {
+            }
+            else if (p.getCantidad() < 15)
+            {
                 agregarAlerta("Stock bajo: " + p.getNombre() + " (" + std::to_string(p.getCantidad()) + " unidades)");
             }
         }
@@ -249,80 +473,6 @@ public:
 };
 
 std::vector<std::string> SistemaNotificaciones::alertas_pendientes;
-
-// ==================== SISTEMA DE REPORTES CON GRÁFICOS ====================
-
-class GeneradorReportes {
-public:
-    static void generarGraficoBarras(const std::map<std::string, int>& datos, const std::string& titulo) {
-        InterfazMejorada::mostrarTitulo(titulo);
-
-        if (datos.empty()) {
-            std::cout << "No hay datos para mostrar." << std::endl;
-            return;
-        }
-
-        // Encontrar el valor máximo para escalar
-        int max_valor = 0;
-        for (const auto& par : datos) {
-            max_valor = std::max(max_valor, par.second);
-        }
-
-        const int max_barras = 40;
-        for (const auto& par : datos) {
-            int longitud_barra = max_valor > 0 ? (par.second * max_barras) / max_valor : 0;
-            
-            std::cout << std::left << std::setw(20) << par.first << " |";
-            std::cout << InterfazMejorada::VERDE;
-            for (int i = 0; i < longitud_barra; ++i) {
-                std::cout << "#";
-            }
-            std::cout << InterfazMejorada::RESET << " " << par.second << std::endl;
-        }
-        std::cout << std::string(65, '-') << std::endl;
-    }
-
-    template<typename FacturaType, typename ProductoType>
-    static void reporteVentasPorCategoria(const std::vector<FacturaType>& facturas, const std::vector<ProductoType>& productos) {
-        std::map<std::string, int> ventas_categoria;
-        
-        for (const auto& factura : facturas) {
-            for (const auto& item : factura.getItems()) {
-                auto prod_it = std::find_if(productos.begin(), productos.end(),
-                    [&item](const ProductoType& p) { return p.getId() == item.getProductoId(); });
-                
-                if (prod_it != productos.end()) {
-                    ventas_categoria[prod_it->getCategoria()] += item.getCantidad();
-                }
-            }
-        }
-
-        generarGraficoBarras(ventas_categoria, "VENTAS POR CATEGORIA");
-    }
-
-    template<typename FacturaType>
-    static void reporteProductosMasVendidos(const std::vector<FacturaType>& facturas) {
-        std::map<std::string, int> productos_vendidos;
-        
-        for (const auto& factura : facturas) {
-            for (const auto& item : factura.getItems()) {
-                productos_vendidos[item.getNombreProducto()] += item.getCantidad();
-            }
-        }
-
-        // Ordenar por cantidad vendida y tomar solo los top 10
-        std::vector<std::pair<std::string, int>> productos_ordenados(productos_vendidos.begin(), productos_vendidos.end());
-        std::sort(productos_ordenados.begin(), productos_ordenados.end(),
-            [](const auto& a, const auto& b) { return a.second > b.second; });
-
-        std::map<std::string, int> top_productos;
-        for (size_t i = 0; i < std::min(size_t(10), productos_ordenados.size()); ++i) {
-            top_productos[productos_ordenados[i].first] = productos_ordenados[i].second;
-        }
-
-        generarGraficoBarras(top_productos, "TOP 10 PRODUCTOS MAS VENDIDOS");
-    }
-};
 
 // ==================== CÓDIGO ORIGINAL CON MEJORAS INTEGRADAS ====================
 
@@ -678,6 +828,60 @@ public:
     }
 };
 
+// Implementación de mostrarResumenTotales
+void DisenoMejorado::mostrarResumenTotales(const Factura &factura)
+{
+    std::cout << "\n"
+              << InterfazMejorada::CYAN;
+
+    // Caja para el resumen
+    std::cout << ESQUINA_SUP_IZQ;
+    for (int i = 0; i < 40; i++)
+        std::cout << LINEA_HOR;
+    std::cout << ESQUINA_SUP_DER << std::endl;
+
+    // Función auxiliar para mostrar línea de total
+    auto mostrarLineaTotal = [](const std::string &concepto, double valor, const std::string &color = InterfazMejorada::BLANCO)
+    {
+        std::cout << InterfazMejorada::CYAN << LINEA_VER << color
+                  << std::right << std::setw(22) << concepto << ": $"
+                  << std::fixed << std::setprecision(2) << std::setw(12) << valor
+                  << InterfazMejorada::CYAN << " " << LINEA_VER << InterfazMejorada::RESET << std::endl;
+    };
+
+    mostrarLineaTotal("Subtotal sin IVA", factura.getSubtotalSinIva());
+    mostrarLineaTotal("Subtotal con IVA", factura.getSubtotalConIva());
+    mostrarLineaTotal("IVA (19%)", factura.getIvaTotal(), InterfazMejorada::AMARILLO);
+
+    if (factura.getPuntosUsados() > 0)
+    {
+        mostrarLineaTotal("Descuento puntos", -factura.getPuntosUsados(), InterfazMejorada::VERDE);
+    }
+
+    if (factura.getDescuentoCarnes() > 0)
+    {
+        mostrarLineaTotal("Descuento carnes", -factura.getDescuentoCarnes(), InterfazMejorada::VERDE);
+    }
+
+    // Línea separadora antes del total
+    std::cout << InterfazMejorada::CYAN << T_IZQUIERDA;
+    for (int i = 0; i < 40; i++)
+        std::cout << LINEA_HOR;
+    std::cout << T_DERECHA << std::endl;
+
+    // Total final destacado
+    std::cout << LINEA_VER << InterfazMejorada::VERDE << InterfazMejorada::NEGRITA
+              << std::right << std::setw(22) << "TOTAL FINAL" << ": $"
+              << std::fixed << std::setprecision(2) << std::setw(12) << factura.getTotalFinal()
+              << InterfazMejorada::CYAN << " " << LINEA_VER << InterfazMejorada::RESET << std::endl;
+
+    // Marco inferior
+    std::cout << InterfazMejorada::CYAN << ESQUINA_INF_IZQ;
+    for (int i = 0; i < 40; i++)
+        std::cout << LINEA_HOR;
+    std::cout << ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
+}
+
 // Clase para gestión de archivos
 class GestorArchivos
 {
@@ -810,7 +1014,8 @@ public:
             }
             std::cout << " ";
         }
-        std::cout << InterfazMejorada::RESET << "\n" << codigo << std::endl;
+        std::cout << InterfazMejorada::RESET << "\n"
+                  << codigo << std::endl;
     }
 
     static void guardarCodigoEnArchivo(const Producto &producto, const std::string &codigo)
@@ -827,14 +1032,15 @@ public:
     }
 };
 
-
-
-class GeneradorPDF {
+class GeneradorPDF
+{
 public:
-    static bool guardarFacturaPDF(const Factura& factura, const Cliente* cliente = nullptr) {
+    static bool guardarFacturaPDF(const Factura &factura, const Cliente *cliente = nullptr)
+    {
         // Crea el documento PDF
         HPDF_Doc pdf = HPDF_New(NULL, NULL);
-        if (!pdf) {
+        if (!pdf)
+        {
             std::cerr << "Error al crear el documento PDF." << std::endl;
             return false;
         }
@@ -852,7 +1058,8 @@ public:
         HPDF_Page_TextOut(page, 50, 800, ("Factura No: " + std::to_string(factura.getNumero())).c_str());
         HPDF_Page_TextOut(page, 50, 780, ("Fecha: " + factura.getFecha()).c_str());
 
-        if (cliente != nullptr) {
+        if (cliente != nullptr)
+        {
             HPDF_Page_TextOut(page, 50, 760, ("Cliente: " + cliente->getNombre()).c_str());
         }
 
@@ -862,7 +1069,8 @@ public:
         float yPosition = 720;
         HPDF_Page_BeginText(page);
 
-        for (const auto& item : factura.getItems()) {
+        for (const auto &item : factura.getItems())
+        {
             std::string item_text = item.getNombreProducto() + " | " +
                                     std::to_string(item.getCantidad()) + " | " +
                                     "$" + std::to_string(item.getPrecioUnitario()) + " | " +
@@ -886,11 +1094,14 @@ public:
         HPDF_Page_EndText(page);
 
         // Guardar el archivo PDF
-        try {
+        try
+        {
             HPDF_SaveToFile(pdf, ("factura_" + std::to_string(factura.getNumero()) + ".pdf").c_str());
             HPDF_Free(pdf);
             return true;
-        } catch (const std::exception& e) {
+        }
+        catch (const std::exception &e)
+        {
             std::cerr << "Error al guardar el PDF: " << e.what() << std::endl;
             HPDF_Free(pdf);
             return false;
@@ -898,6 +1109,297 @@ public:
     }
 };
 
+// ==================== FUNCIÓN MEJORADA PARA IMPRIMIR FACTURAS ====================
+
+class FacturaMejorada
+{
+public:
+    static void imprimirFacturaElegante(const Factura &factura, const Cliente *cliente = nullptr)
+    {
+        InterfazMejorada::limpiarPantalla();
+
+        // Header de la empresa
+        DisenoMejorado::mostrarHeaderEmpresa();
+
+        std::cout << "\n";
+        DisenoMejorado::crearCaja("FACTURA DE VENTA", 70);
+
+        // Información de la factura
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA;
+        std::cout << "Factura No: " << InterfazMejorada::VERDE << std::setw(15) << std::left << factura.getNumero()
+                  << InterfazMejorada::AMARILLO << "   Fecha: " << InterfazMejorada::VERDE << factura.getFecha() << InterfazMejorada::RESET << std::endl;
+
+        if (cliente != nullptr)
+        {
+            std::cout << InterfazMejorada::AMARILLO << "Cliente: " << InterfazMejorada::VERDE << cliente->getNombre()
+                      << InterfazMejorada::AMARILLO << " (ID: " << cliente->getId() << ")" << InterfazMejorada::RESET << std::endl;
+            std::cout << InterfazMejorada::AMARILLO << "Puntos disponibles: " << InterfazMejorada::VERDE
+                      << std::fixed << std::setprecision(2) << cliente->getPuntos() << InterfazMejorada::RESET << std::endl;
+        }
+        else
+        {
+            std::cout << InterfazMejorada::AMARILLO << "Cliente: " << InterfazMejorada::BLANCO << "Cliente sin registro" << InterfazMejorada::RESET << std::endl;
+        }
+
+        std::cout << "\n";
+
+        // Tabla de productos con diseño elegante
+        std::vector<std::string> headers = {"Producto", "Cant.", "P.Unit", "Subtotal", "IVA"};
+        std::vector<int> anchos = {25, 6, 10, 12, 5};
+
+        DisenoMejorado::iniciarTabla(headers, anchos);
+
+        for (const auto &item : factura.getItems())
+        {
+            std::vector<std::string> fila = {
+                item.getNombreProducto().length() > 24 ? item.getNombreProducto().substr(0, 24) : item.getNombreProducto(),
+                std::to_string(item.getCantidad()),
+                "$" + std::to_string(static_cast<int>(item.getPrecioUnitario() * 100) / 100) + "." +
+                    (static_cast<int>(item.getPrecioUnitario() * 100) % 100 < 10 ? "0" : "") +
+                    std::to_string(static_cast<int>(item.getPrecioUnitario() * 100) % 100),
+                "$" + std::to_string(static_cast<int>(item.getSubtotal() * 100) / 100) + "." +
+                    (static_cast<int>(item.getSubtotal() * 100) % 100 < 10 ? "0" : "") +
+                    std::to_string(static_cast<int>(item.getSubtotal() * 100) % 100),
+                item.isExentoIva() ? "No" : "Si"};
+
+            DisenoMejorado::filaTabla(fila, anchos);
+        }
+
+        DisenoMejorado::finalizarTabla(anchos);
+
+        // Resumen de totales elegante
+        DisenoMejorado::mostrarResumenTotales(factura);
+
+        // Información adicional si hay descuentos
+        if (factura.getPuntosUsados() > 0 || factura.getDescuentoCarnes() > 0)
+        {
+            std::cout << "\n"
+                      << InterfazMejorada::VERDE << "[DESCUENTOS APLICADOS]" << InterfazMejorada::RESET << std::endl;
+            if (factura.getPuntosUsados() > 0)
+            {
+                std::cout << "  * Puntos utilizados: " << InterfazMejorada::VERDE << factura.getPuntosUsados() << " puntos" << InterfazMejorada::RESET << std::endl;
+            }
+            if (factura.getDescuentoCarnes() > 0)
+            {
+                std::cout << "  * " << InterfazMejorada::VERDE << "FELICIDADES! Gano el sorteo de carnes (10% desc.)" << InterfazMejorada::RESET << std::endl;
+            }
+        }
+
+        // Footer profesional
+        DisenoMejorado::mostrarFooterFactura();
+
+        // Código QR simulado (representación ASCII)
+        std::cout << "\n"
+                  << InterfazMejorada::CYAN << "Codigo QR de la factura:" << InterfazMejorada::RESET << std::endl;
+        mostrarCodigoQRSimulado(factura.getNumero());
+    }
+
+private:
+    static void mostrarCodigoQRSimulado(int numeroFactura)
+    {
+        std::cout << InterfazMejorada::BLANCO;
+
+        // Generar patrón basado en el número de factura
+        srand(numeroFactura);
+
+        std::cout << "  +";
+        for (int i = 0; i < 20; i++)
+            std::cout << "-";
+        std::cout << "+" << std::endl;
+
+        for (int fila = 0; fila < 8; fila++)
+        {
+            std::cout << "  |";
+            for (int col = 0; col < 20; col++)
+            {
+                if ((fila + col + numeroFactura) % 3 == 0)
+                {
+                    std::cout << "#";
+                }
+                else
+                {
+                    std::cout << " ";
+                }
+            }
+            std::cout << "|" << std::endl;
+        }
+
+        std::cout << "  +";
+        for (int i = 0; i < 20; i++)
+            std::cout << "-";
+        std::cout << "+" << InterfazMejorada::RESET << std::endl;
+
+        std::cout << InterfazMejorada::CYAN << "    Factura #" << numeroFactura << InterfazMejorada::RESET << std::endl;
+    }
+};
+
+// ==================== MEJORAS EN EL MENÚ PRINCIPAL ====================
+
+class MenuMejorado
+{
+public:
+    static void mostrarMenuPrincipal()
+    {
+        InterfazMejorada::limpiarPantalla();
+
+        // Banner principal con diseño mejorado
+        std::cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA;
+        std::cout << "\n"
+                  << DisenoMejorado::ESQUINA_SUP_IZQ;
+        for (int i = 0; i < 68; i++)
+            std::cout << DisenoMejorado::LINEA_HOR;
+        std::cout << DisenoMejorado::ESQUINA_SUP_DER << std::endl;
+
+        std::cout << DisenoMejorado::LINEA_VER << "                                                                  " << DisenoMejorado::LINEA_VER << std::endl;
+        std::cout << DisenoMejorado::LINEA_VER << "       " << InterfazMejorada::VERDE << "SISTEMA DE GESTION - PRODUCTOS FRESCOS v2.0" << InterfazMejorada::CYAN << "        " << DisenoMejorado::LINEA_VER << std::endl;
+        std::cout << DisenoMejorado::LINEA_VER << "                                                                  " << DisenoMejorado::LINEA_VER << std::endl;
+
+        std::cout << DisenoMejorado::ESQUINA_INF_IZQ;
+        for (int i = 0; i < 68; i++)
+            std::cout << DisenoMejorado::LINEA_HOR;
+        std::cout << DisenoMejorado::ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
+
+        // Opciones del menú organizadas por categorías
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[GESTION DE PRODUCTOS]" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  1. " << InterfazMejorada::VERDE << "Agregar producto" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  2. " << InterfazMejorada::VERDE << "Listar productos" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  3. " << InterfazMejorada::VERDE << "Buscar producto por codigo" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  4. " << InterfazMejorada::VERDE << "Actualizar inventario" << InterfazMejorada::RESET << std::endl;
+
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[GESTION DE CLIENTES]" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  5. " << InterfazMejorada::CYAN << "Agregar cliente" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  6. " << InterfazMejorada::CYAN << "Listar clientes" << InterfazMejorada::RESET << std::endl;
+
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[FACTURACION Y VENTAS]" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  7. " << InterfazMejorada::MAGENTA << "Crear factura" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << " 11. " << InterfazMejorada::MAGENTA << "Reimprimir factura como PDF" << InterfazMejorada::RESET << std::endl;
+
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[HERRAMIENTAS Y REPORTES]" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  8. " << InterfazMejorada::AMARILLO << "Generar codigo de barras" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << "  9. " << InterfazMejorada::AMARILLO << "Generar reporte de inventario" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << " 10. " << InterfazMejorada::AMARILLO << "Ver estadisticas" << InterfazMejorada::RESET << std::endl;
+
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[SISTEMA]" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << " 12. " << InterfazMejorada::BLANCO << "Guardar datos" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::BLANCO << " 13. " << InterfazMejorada::BLANCO << "Cargar datos" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::ROJO << "  0. " << InterfazMejorada::ROJO << "Salir" << InterfazMejorada::RESET << std::endl;
+
+        DisenoMejorado::mostrarSeparador('-', 70, InterfazMejorada::CYAN);
+        std::cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA << ">> Seleccione una opcion: " << InterfazMejorada::RESET;
+    }
+};
+
+// ==================== SISTEMA DE REPORTES CON GRÁFICOS MEJORADOS ====================
+
+class GeneradorReportes
+{
+public:
+    static void generarGraficoBarrasElegante(const std::map<std::string, int> &datos, const std::string &titulo)
+    {
+        InterfazMejorada::limpiarPantalla();
+        DisenoMejorado::crearCaja(titulo, 70);
+
+        if (datos.empty())
+        {
+            std::cout << InterfazMejorada::AMARILLO << "No hay datos para mostrar." << InterfazMejorada::RESET << std::endl;
+            return;
+        }
+
+        // Encontrar el valor máximo para escalar
+        int max_valor = 0;
+        for (const auto &par : datos)
+        {
+            max_valor = std::max(max_valor, par.second);
+        }
+
+        const int max_barras = 50;
+        std::cout << "\n";
+
+        for (const auto &par : datos)
+        {
+            int longitud_barra = max_valor > 0 ? (par.second * max_barras) / max_valor : 0;
+
+            // Nombre de la categoría
+            std::cout << InterfazMejorada::CYAN << std::left << std::setw(20) << par.first << InterfazMejorada::RESET << " ";
+
+            // Barra visual
+            std::cout << InterfazMejorada::VERDE << "|";
+            for (int i = 0; i < longitud_barra; ++i)
+            {
+                std::cout << "#";
+            }
+
+            // Espacios para completar
+            for (int i = longitud_barra; i < max_barras; ++i)
+            {
+                std::cout << " ";
+            }
+
+            // Valor numérico
+            std::cout << "| " << InterfazMejorada::AMARILLO << par.second << InterfazMejorada::RESET << std::endl;
+        }
+
+        std::cout << "\n";
+        DisenoMejorado::mostrarSeparador('=', 70, InterfazMejorada::CYAN);
+    }
+
+    template <typename FacturaType, typename ProductoType>
+    static void reporteVentasPorCategoria(const std::vector<FacturaType> &facturas, const std::vector<ProductoType> &productos)
+    {
+        std::map<std::string, int> ventas_categoria;
+
+        for (const auto &factura : facturas)
+        {
+            for (const auto &item : factura.getItems())
+            {
+                auto prod_it = std::find_if(productos.begin(), productos.end(),
+                                            [&item](const ProductoType &p)
+                                            { return p.getId() == item.getProductoId(); });
+
+                if (prod_it != productos.end())
+                {
+                    ventas_categoria[prod_it->getCategoria()] += item.getCantidad();
+                }
+            }
+        }
+
+        generarGraficoBarrasElegante(ventas_categoria, "VENTAS POR CATEGORIA");
+    }
+
+    template <typename FacturaType>
+    static void reporteProductosMasVendidos(const std::vector<FacturaType> &facturas)
+    {
+        std::map<std::string, int> productos_vendidos;
+
+        for (const auto &factura : facturas)
+        {
+            for (const auto &item : factura.getItems())
+            {
+                productos_vendidos[item.getNombreProducto()] += item.getCantidad();
+            }
+        }
+
+        // Ordenar por cantidad vendida y tomar solo los top 10
+        std::vector<std::pair<std::string, int>> productos_ordenados(productos_vendidos.begin(), productos_vendidos.end());
+        std::sort(productos_ordenados.begin(), productos_ordenados.end(),
+                  [](const auto &a, const auto &b)
+                  { return a.second > b.second; });
+
+        std::map<std::string, int> top_productos;
+        for (size_t i = 0; i < std::min(size_t(10), productos_ordenados.size()); ++i)
+        {
+            top_productos[productos_ordenados[i].first] = productos_ordenados[i].second;
+        }
+
+        generarGraficoBarrasElegante(top_productos, "TOP 10 PRODUCTOS MAS VENDIDOS");
+    }
+};
 
 // ==================== CLASE PRINCIPAL MEJORADA ====================
 
@@ -923,7 +1425,7 @@ public:
         cargar_datos();
     }
 
-        ~SistemaGestion()
+    ~SistemaGestion()
     {
         InterfazMejorada::mostrarCarga("Guardando datos");
         guardar_datos();
@@ -965,8 +1467,8 @@ public:
     {
         try
         {
-            InterfazMejorada::mostrarTitulo("AGREGAR NUEVO PRODUCTO");
-            
+            DisenoMejorado::crearCaja("AGREGAR NUEVO PRODUCTO", 60);
+
             Producto nuevo;
             nuevo.setId(siguiente_producto_id++);
 
@@ -980,7 +1482,7 @@ public:
             std::cout << "2. Verduras" << std::endl;
             std::cout << "3. Carnes" << std::endl;
             std::cout << "4. Productos individuales" << std::endl;
-            
+
             int cat_opcion = Validador::leerEnteroSeguro(">> Seleccione categoria (1-4): ", 1, 4);
 
             switch (cat_opcion)
@@ -1031,45 +1533,64 @@ public:
 
     void listar_productos()
     {
-        InterfazMejorada::mostrarTitulo("INVENTARIO DE PRODUCTOS");
-        
-        if (productos.empty()) {
+        InterfazMejorada::limpiarPantalla();
+        DisenoMejorado::crearCaja("INVENTARIO DE PRODUCTOS", 80);
+
+        if (productos.empty())
+        {
             InterfazMejorada::mostrarNotificacion("No hay productos registrados", "advertencia");
             return;
         }
 
-        std::cout << InterfazMejorada::CYAN << std::left << std::setw(5) << "ID"
-                  << std::setw(25) << "Nombre"
-                  << std::setw(15) << "Categoria"
-                  << std::setw(12) << "Precio"
-                  << std::setw(10) << "Stock"
-                  << std::setw(8) << "IVA" << InterfazMejorada::RESET << std::endl;
-        std::cout << std::string(75, '-') << std::endl;
+        std::vector<std::string> headers = {"ID", "Nombre", "Categoria", "Precio", "Stock", "IVA", "Estado"};
+        std::vector<int> anchos = {4, 25, 15, 10, 8, 6, 10};
+
+        DisenoMejorado::iniciarTabla(headers, anchos);
 
         for (const auto &p : productos)
         {
-            // Colorear según stock
-            std::string color = InterfazMejorada::RESET;
-            if (p.getCantidad() < 5) color = InterfazMejorada::ROJO;
-            else if (p.getCantidad() < 15) color = InterfazMejorada::AMARILLO;
-            else color = InterfazMejorada::VERDE;
+            std::string estado, color;
+            if (p.getCantidad() < 5)
+            {
+                estado = "CRITICO";
+                color = InterfazMejorada::ROJO;
+            }
+            else if (p.getCantidad() < 15)
+            {
+                estado = "BAJO";
+                color = InterfazMejorada::AMARILLO;
+            }
+            else
+            {
+                estado = "OK";
+                color = InterfazMejorada::VERDE;
+            }
 
-            std::cout << color << std::left << std::setw(5) << p.getId()
-                      << std::setw(25) << p.getNombre()
-                      << std::setw(15) << p.getCategoria()
-                      << std::setw(12) << std::fixed << std::setprecision(2) << p.getPrecio()
-                      << std::setw(10) << p.getCantidad()
-                      << std::setw(8) << (p.isExentoIva() ? "No" : "Si") << InterfazMejorada::RESET << std::endl;
+            std::vector<std::string> fila = {
+                std::to_string(p.getId()),
+                p.getNombre().length() > 24 ? p.getNombre().substr(0, 24) : p.getNombre(),
+                p.getCategoria(),
+                "$" + std::to_string(static_cast<int>(p.getPrecio() * 100) / 100) + "." +
+                    (static_cast<int>(p.getPrecio() * 100) % 100 < 10 ? "0" : "") +
+                    std::to_string(static_cast<int>(p.getPrecio() * 100) % 100),
+                std::to_string(p.getCantidad()),
+                p.isExentoIva() ? "No" : "Si",
+                estado};
+
+            DisenoMejorado::filaTabla(fila, anchos, color);
         }
-        
-        // Verificar stock bajo después de mostrar la lista
+
+        DisenoMejorado::finalizarTabla(anchos);
+
+        // Verificar y mostrar alertas de stock
         SistemaNotificaciones::verificarStockBajo(productos);
+        SistemaNotificaciones::mostrarAlertas();
     }
 
     void buscar_producto_por_codigo()
     {
-        InterfazMejorada::mostrarTitulo("BUSCAR PRODUCTO POR ID");
-        
+        DisenoMejorado::crearCaja("BUSCAR PRODUCTO POR ID", 50);
+
         int id = Validador::leerEnteroSeguro("Ingrese el ID del producto: ", 1, 99999);
 
         auto it = std::find_if(productos.begin(), productos.end(),
@@ -1098,11 +1619,12 @@ public:
 
     void actualizar_inventario()
     {
-        InterfazMejorada::mostrarTitulo("ACTUALIZAR INVENTARIO");
+        DisenoMejorado::crearCaja("ACTUALIZAR INVENTARIO", 50);
         listar_productos();
-        
-        if (productos.empty()) return;
-        
+
+        if (productos.empty())
+            return;
+
         int id = Validador::leerEnteroSeguro("\nIngrese el ID del producto a actualizar: ", 1, 99999);
 
         auto it = std::find_if(productos.begin(), productos.end(),
@@ -1125,8 +1647,8 @@ public:
 
     void agregar_cliente()
     {
-        InterfazMejorada::mostrarTitulo("AGREGAR NUEVO CLIENTE");
-        
+        DisenoMejorado::crearCaja("AGREGAR NUEVO CLIENTE", 50);
+
         Cliente nuevo;
         nuevo.setId(siguiente_cliente_id++);
 
@@ -1140,32 +1662,63 @@ public:
 
     void listar_clientes()
     {
-        InterfazMejorada::mostrarTitulo("LISTA DE CLIENTES");
-        
-        if (clientes.empty()) {
+        InterfazMejorada::limpiarPantalla();
+        DisenoMejorado::crearCaja("REGISTRO DE CLIENTES", 60);
+
+        if (clientes.empty())
+        {
             InterfazMejorada::mostrarNotificacion("No hay clientes registrados", "advertencia");
             return;
         }
 
-        std::cout << InterfazMejorada::CYAN << std::left << std::setw(5) << "ID"
-                  << std::setw(30) << "Nombre"
-                  << std::setw(15) << "Puntos" << InterfazMejorada::RESET << std::endl;
-        std::cout << std::string(50, '-') << std::endl;
+        std::vector<std::string> headers = {"ID", "Nombre", "Puntos", "Categoria"};
+        std::vector<int> anchos = {5, 30, 12, 15};
+
+        DisenoMejorado::iniciarTabla(headers, anchos);
 
         for (const auto &c : clientes)
         {
-            std::cout << std::left << std::setw(5) << c.getId()
-                      << std::setw(30) << c.getNombre()
-                      << std::setw(15) << InterfazMejorada::VERDE << std::fixed << std::setprecision(2) << c.getPuntos() << InterfazMejorada::RESET << std::endl;
+            std::string categoria, color;
+            if (c.getPuntos() >= 100)
+            {
+                categoria = "VIP";
+                color = InterfazMejorada::VERDE;
+            }
+            else if (c.getPuntos() >= 50)
+            {
+                categoria = "PREMIUM";
+                color = InterfazMejorada::AMARILLO;
+            }
+            else
+            {
+                categoria = "REGULAR";
+                color = InterfazMejorada::BLANCO;
+            }
+
+            std::vector<std::string> fila = {
+                std::to_string(c.getId()),
+                c.getNombre(),
+                std::to_string(static_cast<int>(c.getPuntos() * 100) / 100) + "." +
+                    (static_cast<int>(c.getPuntos() * 100) % 100 < 10 ? "0" : "") +
+                    std::to_string(static_cast<int>(c.getPuntos() * 100) % 100),
+                categoria};
+
+            DisenoMejorado::filaTabla(fila, anchos, color);
         }
+
+        DisenoMejorado::finalizarTabla(anchos);
+
+        std::cout << "\n"
+                  << InterfazMejorada::CYAN << "[LEYENDA]" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::VERDE << "VIP: 100+ puntos  " << InterfazMejorada::AMARILLO << "PREMIUM: 50-99 puntos  " << InterfazMejorada::BLANCO << "REGULAR: 0-49 puntos" << InterfazMejorada::RESET << std::endl;
     }
 
     void crear_factura()
     {
         try
         {
-            InterfazMejorada::mostrarTitulo("CREAR NUEVA FACTURA");
-            
+            DisenoMejorado::crearCaja("CREAR NUEVA FACTURA", 60);
+
             Factura nueva_factura;
             nueva_factura.setNumero(siguiente_factura_numero++);
 
@@ -1207,12 +1760,13 @@ public:
             while (continuar == 'S' || continuar == 's')
             {
                 listar_productos();
-                
-                if (productos.empty()) {
+
+                if (productos.empty())
+                {
                     InterfazMejorada::mostrarNotificacion("No hay productos disponibles", "error");
                     break;
                 }
-                
+
                 int producto_id = Validador::leerEnteroSeguro("\nIngrese ID del producto: ", 1, 99999);
 
                 auto prod_it = std::find_if(productos.begin(), productos.end(),
@@ -1243,7 +1797,7 @@ public:
                 prod_it->setCantidad(prod_it->getCantidad() - cantidad);
 
                 InterfazMejorada::mostrarNotificacion("Producto agregado a la factura", "exito");
-                
+
                 std::cout << InterfazMejorada::CYAN << ">> ¿Agregar otro producto? (S/N): " << InterfazMejorada::RESET;
                 std::cin >> continuar;
             }
@@ -1294,8 +1848,9 @@ public:
                     {                                          // 10% de probabilidad
                         double descuento = total_carnes * 0.1; // 10% descuento
                         nueva_factura.setDescuentoCarnes(descuento);
-                        InterfazMejorada::mostrarNotificacion("[GANADOR!] Ha ganado un 10% de descuento en carnes: $" + 
-                                                            std::to_string(descuento), "exito");
+                        InterfazMejorada::mostrarNotificacion("[GANADOR!] Ha ganado un 10% de descuento en carnes: $" +
+                                                                  std::to_string(descuento),
+                                                              "exito");
                     }
                 }
 
@@ -1305,18 +1860,23 @@ public:
             }
 
             facturas.push_back(nueva_factura);
-            imprimir_factura(nueva_factura);
-            
-            // **NUEVA FUNCIONALIDAD: Guardar factura como PDF automáticamente**
-            Cliente* cliente_para_pdf = nullptr;
-            if (cliente_actual != nullptr) {
-                cliente_para_pdf = cliente_actual;
+
+            // USAR LA NUEVA FUNCIÓN MEJORADA PARA IMPRIMIR
+            Cliente *cliente_para_factura = nullptr;
+            if (cliente_actual != nullptr)
+            {
+                cliente_para_factura = cliente_actual;
             }
-            
+            FacturaMejorada::imprimirFacturaElegante(nueva_factura, cliente_para_factura);
+
+            // Guardar factura como PDF automáticamente
             InterfazMejorada::mostrarCarga("Generando archivo de factura");
-            if (GeneradorPDF::guardarFacturaPDF(nueva_factura, cliente_para_pdf)) {
+            if (GeneradorPDF::guardarFacturaPDF(nueva_factura, cliente_para_factura))
+            {
                 InterfazMejorada::mostrarNotificacion("Factura guardada exitosamente!", "exito");
-            } else {
+            }
+            else
+            {
                 InterfazMejorada::mostrarNotificacion("Error al guardar la factura", "advertencia");
             }
         }
@@ -1326,67 +1886,14 @@ public:
         }
     }
 
-    void imprimir_factura(const Factura &factura)
-    {
-        std::cout << InterfazMejorada::CYAN << "\n"
-                  << std::string(60, '=') << std::endl;
-                  
-        std::cout << "                FACTURA DE VENTA" << std::endl;
-        std::cout << std::string(60, '=') << InterfazMejorada::RESET << std::endl;
-        std::cout << "Factura No: " << InterfazMejorada::AMARILLO << factura.getNumero() << InterfazMejorada::RESET << std::endl;
-        std::cout << "Fecha: " << factura.getFecha() << std::endl;
-        std::cout << "Cliente ID: " << (factura.getClienteId() == 0 ? "Sin registro" : std::to_string(factura.getClienteId())) << std::endl;
-        std::cout << std::string(60, '-') << std::endl;
-
-        std::cout << InterfazMejorada::CYAN << std::left << std::setw(20) << "Producto"
-                  << std::setw(8) << "Cant."
-                  << std::setw(12) << "P.Unit"
-                  << std::setw(12) << "Subtotal"
-                  << std::setw(8) << "IVA" << InterfazMejorada::RESET << std::endl;
-        std::cout << std::string(60, '-') << std::endl;
-
-        for (const auto &item : factura.getItems())
-        {
-            std::cout << std::left << std::setw(20) << item.getNombreProducto().substr(0, 19)
-                      << std::setw(8) << item.getCantidad()
-                      << std::setw(12) << std::fixed << std::setprecision(2) << item.getPrecioUnitario()
-                      << std::setw(12) << item.getSubtotal()
-                      << std::setw(8) << (item.isExentoIva() ? "No" : "Si") << std::endl;
-        }
-
-        std::cout << std::string(60, '-') << std::endl;
-        std::cout << std::right << std::setw(40) << "Subtotal sin IVA: $"
-                  << std::fixed << std::setprecision(2) << factura.getSubtotalSinIva() << std::endl;
-        std::cout << std::right << std::setw(40) << "Subtotal con IVA: $"
-                  << factura.getSubtotalConIva() << std::endl;
-        std::cout << std::right << std::setw(40) << "IVA (19%): $"
-                  << factura.getIvaTotal() << std::endl;
-
-        if (factura.getPuntosUsados() > 0)
-        {
-            std::cout << InterfazMejorada::VERDE << std::right << std::setw(40) << "Descuento puntos: -$"
-                      << factura.getPuntosUsados() << InterfazMejorada::RESET << std::endl;
-        }
-
-        if (factura.getDescuentoCarnes() > 0)
-        {
-            std::cout << InterfazMejorada::VERDE << std::right << std::setw(40) << "Descuento carnes: -$"
-                      << factura.getDescuentoCarnes() << InterfazMejorada::RESET << std::endl;
-        }
-
-        std::cout << InterfazMejorada::AMARILLO << std::string(60, '=') << std::endl;
-        std::cout << std::right << std::setw(40) << "TOTAL FINAL: $"
-                  << std::fixed << std::setprecision(2) << factura.getTotalFinal() << std::endl;
-        std::cout << std::string(60, '=') << InterfazMejorada::RESET << std::endl;
-    }
-
     void generar_codigo_barras()
     {
-        InterfazMejorada::mostrarTitulo("GENERAR CODIGO DE BARRAS");
-        
+        DisenoMejorado::crearCaja("GENERAR CODIGO DE BARRAS", 60);
+
         listar_productos();
-        if (productos.empty()) return;
-        
+        if (productos.empty())
+            return;
+
         int id = Validador::leerEnteroSeguro("\nIngrese ID del producto para generar codigo de barras: ", 1, 99999);
 
         auto it = std::find_if(productos.begin(), productos.end(),
@@ -1412,164 +1919,332 @@ public:
 
     void generar_reporte_inventario()
     {
-        InterfazMejorada::mostrarTitulo("GENERAR REPORTE DE INVENTARIO");
-        InterfazMejorada::mostrarCarga("Generando reporte");
-        
-        std::ofstream reporte("reporte_inventario.txt");
-        if (!reporte.is_open())
-        {
-            InterfazMejorada::mostrarNotificacion("Error al crear el archivo de reporte", "error");
-            return;
-        }
+        InterfazMejorada::limpiarPantalla();
+        DisenoMejorado::crearCaja("REPORTE DE INVENTARIO", 80);
 
-        reporte << "=== REPORTE DE INVENTARIO ===" << std::endl;
-        reporte << "Fecha: ";
-
+        // Información del reporte
         time_t now = time(0);
-        reporte << ctime(&now) << std::endl;
+        char *dt = ctime(&now);
+        std::string fecha(dt);
+        fecha.pop_back();
 
-        double valor_total = 0;
+        std::cout << InterfazMejorada::AMARILLO << "Fecha del reporte: " << InterfazMejorada::VERDE << fecha << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::AMARILLO << "Total de productos: " << InterfazMejorada::VERDE << productos.size() << InterfazMejorada::RESET << std::endl;
+
+        // Tabla de productos con diseño elegante
+        std::vector<std::string> headers = {"ID", "Producto", "Categoria", "Stock", "Precio", "Valor Total", "Estado"};
+        std::vector<int> anchos = {4, 20, 15, 8, 10, 12, 10};
+
+        std::cout << "\n";
+        DisenoMejorado::iniciarTabla(headers, anchos);
+
+        double valorTotal = 0;
+        int productosStockBajo = 0;
+        int productosStockCritico = 0;
+
         for (const auto &p : productos)
         {
-            double valor_producto = p.getCantidad() * p.getPrecio();
-            reporte << "ID: " << p.getId()
-                    << " | Nombre: " << p.getNombre()
-                    << " | Stock: " << p.getCantidad()
-                    << " | Precio: $" << std::fixed << std::setprecision(2) << p.getPrecio()
-                    << " | Valor: $" << valor_producto << std::endl;
-            valor_total += valor_producto;
+            double valorProducto = p.getCantidad() * p.getPrecio();
+            valorTotal += valorProducto;
+
+            std::string estado;
+            std::string color;
+            if (p.getCantidad() < 5)
+            {
+                estado = "CRITICO";
+                color = InterfazMejorada::ROJO;
+                productosStockCritico++;
+            }
+            else if (p.getCantidad() < 15)
+            {
+                estado = "BAJO";
+                color = InterfazMejorada::AMARILLO;
+                productosStockBajo++;
+            }
+            else
+            {
+                estado = "OK";
+                color = InterfazMejorada::VERDE;
+            }
+
+            std::vector<std::string> fila = {
+                std::to_string(p.getId()),
+                p.getNombre().length() > 19 ? p.getNombre().substr(0, 19) : p.getNombre(),
+                p.getCategoria(),
+                std::to_string(p.getCantidad()),
+                "$" + std::to_string(static_cast<int>(p.getPrecio() * 100) / 100) + "." +
+                    (static_cast<int>(p.getPrecio() * 100) % 100 < 10 ? "0" : "") +
+                    std::to_string(static_cast<int>(p.getPrecio() * 100) % 100),
+                "$" + std::to_string(static_cast<int>(valorProducto * 100) / 100) + "." +
+                    (static_cast<int>(valorProducto * 100) % 100 < 10 ? "0" : "") +
+                    std::to_string(static_cast<int>(valorProducto * 100) % 100),
+                estado};
+
+            DisenoMejorado::filaTabla(fila, anchos, color);
         }
 
-        reporte << "\nVALOR TOTAL DEL INVENTARIO: $" << std::fixed << std::setprecision(2) << valor_total << std::endl;
-        reporte.close();
+        DisenoMejorado::finalizarTabla(anchos);
 
-        InterfazMejorada::mostrarNotificacion("Reporte de inventario generado: reporte_inventario.txt", "exito");
+        // Resumen estadístico
+        std::cout << "\n";
+        DisenoMejorado::crearCaja("RESUMEN ESTADISTICO", 60);
+
+        std::cout << InterfazMejorada::VERDE << "Valor total del inventario: $" << std::fixed << std::setprecision(2) << valorTotal << InterfazMejorada::RESET << std::endl;
+        std::cout << "Productos en stock normal: " << InterfazMejorada::VERDE << (productos.size() - productosStockBajo - productosStockCritico) << InterfazMejorada::RESET << std::endl;
+        std::cout << "Productos con stock bajo: " << InterfazMejorada::AMARILLO << productosStockBajo << InterfazMejorada::RESET << std::endl;
+        std::cout << "Productos con stock critico: " << InterfazMejorada::ROJO << productosStockCritico << InterfazMejorada::RESET << std::endl;
+
+        if (productosStockCritico > 0 || productosStockBajo > 0)
+        {
+            std::cout << "\n"
+                      << InterfazMejorada::ROJO << "[ATENCION REQUERIDA]" << InterfazMejorada::RESET << std::endl;
+            std::cout << "Se recomienda reabastecer productos con stock bajo o critico." << std::endl;
+        }
+
+        // Guardar también en archivo
+        std::ofstream reporte("reporte_inventario_detallado.txt");
+        if (reporte.is_open())
+        {
+            reporte << "=== REPORTE DETALLADO DE INVENTARIO ===" << std::endl;
+            reporte << "Fecha: " << fecha << std::endl;
+
+            for (const auto &p : productos)
+            {
+                double valor_producto = p.getCantidad() * p.getPrecio();
+                reporte << "ID: " << p.getId()
+                        << " | Nombre: " << p.getNombre()
+                        << " | Categoria: " << p.getCategoria()
+                        << " | Stock: " << p.getCantidad()
+                        << " | Precio: $" << std::fixed << std::setprecision(2) << p.getPrecio()
+                        << " | Valor Total: $" << valor_producto;
+
+                if (p.getCantidad() < 5)
+                {
+                    reporte << " | STOCK CRITICO";
+                }
+                else if (p.getCantidad() < 15)
+                {
+                    reporte << " | STOCK BAJO";
+                }
+                reporte << std::endl;
+            }
+
+            reporte << "\n=== RESUMEN ===" << std::endl;
+            reporte << "VALOR TOTAL DEL INVENTARIO: $" << std::fixed << std::setprecision(2) << valorTotal << std::endl;
+            reporte.close();
+
+            InterfazMejorada::mostrarNotificacion("Reporte detallado guardado como: reporte_inventario_detallado.txt", "exito");
+        }
     }
 
     void reimprimir_factura_pdf()
     {
-        InterfazMejorada::mostrarTitulo("REIMPRIMIR FACTURA COMO PDF");
-        
-        if (facturas.empty()) {
+        DisenoMejorado::crearCaja("REIMPRIMIR FACTURA COMO PDF", 70);
+
+        if (facturas.empty())
+        {
             InterfazMejorada::mostrarNotificacion("No hay facturas registradas", "advertencia");
             return;
         }
 
-        // Mostrar lista de facturas
-        std::cout << InterfazMejorada::CYAN << std::left << std::setw(10) << "No. Fact"
-                  << std::setw(15) << "Fecha"
-                  << std::setw(15) << "Cliente ID"
-                  << std::setw(15) << "Total" << InterfazMejorada::RESET << std::endl;
-        std::cout << std::string(55, '-') << std::endl;
+        // Mostrar lista de facturas con diseño mejorado
+        std::vector<std::string> headers = {"No. Fact", "Fecha", "Cliente ID", "Total"};
+        std::vector<int> anchos = {10, 15, 15, 15};
 
-        for (const auto& f : facturas) {
-            std::cout << std::left << std::setw(10) << f.getNumero()
-                      << std::setw(15) << f.getFecha().substr(0, 10) // Solo fecha, sin hora
-                      << std::setw(15) << (f.getClienteId() == 0 ? "Sin registro" : std::to_string(f.getClienteId()))
-                      << std::setw(15) << "$" << std::fixed << std::setprecision(2) << f.getTotalFinal() << std::endl;
+        DisenoMejorado::iniciarTabla(headers, anchos);
+
+        for (const auto &f : facturas)
+        {
+            std::vector<std::string> fila = {
+                std::to_string(f.getNumero()),
+                f.getFecha().substr(0, 10), // Solo fecha, sin hora
+                f.getClienteId() == 0 ? "Sin registro" : std::to_string(f.getClienteId()),
+                "$" + std::to_string(static_cast<int>(f.getTotalFinal() * 100) / 100) + "." +
+                    (static_cast<int>(f.getTotalFinal() * 100) % 100 < 10 ? "0" : "") +
+                    std::to_string(static_cast<int>(f.getTotalFinal() * 100) % 100)};
+
+            DisenoMejorado::filaTabla(fila, anchos);
         }
+
+        DisenoMejorado::finalizarTabla(anchos);
 
         int numeroFactura = Validador::leerEnteroSeguro("\nIngrese el numero de factura a reimprimir: ", 1, 99999);
 
         auto it = std::find_if(facturas.begin(), facturas.end(),
-                               [numeroFactura](const Factura& f) { return f.getNumero() == numeroFactura; });
+                               [numeroFactura](const Factura &f)
+                               { return f.getNumero() == numeroFactura; });
 
-        if (it != facturas.end()) {
+        if (it != facturas.end())
+        {
             // Buscar información del cliente si existe
-            Cliente* cliente_info = nullptr;
-            if (it->getClienteId() != 0) {
+            Cliente *cliente_info = nullptr;
+            if (it->getClienteId() != 0)
+            {
                 auto cliente_it = std::find_if(clientes.begin(), clientes.end(),
-                                               [&](const Cliente& c) { return c.getId() == it->getClienteId(); });
-                if (cliente_it != clientes.end()) {
+                                               [&](const Cliente &c)
+                                               { return c.getId() == it->getClienteId(); });
+                if (cliente_it != clientes.end())
+                {
                     cliente_info = &(*cliente_it);
                 }
             }
 
             InterfazMejorada::mostrarCarga("Generando PDF de factura");
-            if (GeneradorPDF::guardarFacturaPDF(*it, cliente_info)) {
+            if (GeneradorPDF::guardarFacturaPDF(*it, cliente_info))
+            {
                 InterfazMejorada::mostrarNotificacion("Factura PDF generada exitosamente!", "exito");
-            } else {
+            }
+            else
+            {
                 InterfazMejorada::mostrarNotificacion("Error al generar PDF de la factura", "error");
             }
-        } else {
+        }
+        else
+        {
             InterfazMejorada::mostrarNotificacion("Factura no encontrada", "error");
         }
     }
 
     void mostrar_estadisticas()
     {
-        InterfazMejorada::mostrarTitulo("ESTADISTICAS DEL SISTEMA");
-        
-        std::cout << "Total productos: " << InterfazMejorada::AMARILLO << productos.size() << InterfazMejorada::RESET << std::endl;
-        std::cout << "Total clientes: " << InterfazMejorada::AMARILLO << clientes.size() << InterfazMejorada::RESET << std::endl;
-        std::cout << "Total facturas: " << InterfazMejorada::AMARILLO << facturas.size() << InterfazMejorada::RESET << std::endl;
+        InterfazMejorada::limpiarPantalla();
+        DisenoMejorado::crearCaja("ESTADISTICAS DEL SISTEMA", 70);
 
-        if (!facturas.empty())
-        {
-            double total_vendido = 0;
-            for (const auto &f : facturas)
-            {
-                total_vendido += f.getTotalFinal();
-            }
-            std::cout << "Total vendido: " << InterfazMejorada::VERDE << "$" << std::fixed << std::setprecision(2) << total_vendido << InterfazMejorada::RESET << std::endl;
-        }
+        // Estadísticas generales
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[RESUMEN GENERAL]" << InterfazMejorada::RESET << std::endl;
 
-        // Productos con poco stock
-        std::cout << InterfazMejorada::AMARILLO << "\n[ALERTA] Productos con stock bajo (menos de 10 unidades):" << InterfazMejorada::RESET << std::endl;
-        bool hay_productos_bajo_stock = false;
+        std::vector<std::string> stats_headers = {"Concepto", "Cantidad", "Observaciones"};
+        std::vector<int> stats_anchos = {25, 12, 25};
+
+        DisenoMejorado::iniciarTabla(stats_headers, stats_anchos);
+
+        // Productos
+        std::vector<std::string> fila_productos = {
+            "Total Productos",
+            std::to_string(productos.size()),
+            productos.size() > 50 ? "Inventario amplio" : "Inventario normal"};
+        DisenoMejorado::filaTabla(fila_productos, stats_anchos, InterfazMejorada::VERDE);
+
+        // Clientes
+        std::vector<std::string> fila_clientes = {
+            "Total Clientes",
+            std::to_string(clientes.size()),
+            clientes.size() > 20 ? "Base sólida" : "En crecimiento"};
+        DisenoMejorado::filaTabla(fila_clientes, stats_anchos, InterfazMejorada::CYAN);
+
+        // Facturas
+        std::vector<std::string> fila_facturas = {
+            "Total Facturas",
+            std::to_string(facturas.size()),
+            facturas.size() > 10 ? "Buena actividad" : "Inicio de ventas"};
+        DisenoMejorado::filaTabla(fila_facturas, stats_anchos, InterfazMejorada::MAGENTA);
+
+        DisenoMejorado::finalizarTabla(stats_anchos);
+
+        // Calcular valor total del inventario
+        double valor_inventario = 0;
         for (const auto &p : productos)
         {
-            if (p.getCantidad() < 10)
-            {
-                std::string color = p.getCantidad() < 5 ? InterfazMejorada::ROJO : InterfazMejorada::AMARILLO;
-                std::cout << color << "- " << p.getNombre() << ": " << p.getCantidad() << " unidades" << InterfazMejorada::RESET << std::endl;
-                hay_productos_bajo_stock = true;
-            }
+            valor_inventario += p.getCantidad() * p.getPrecio();
         }
 
-        if (!hay_productos_bajo_stock)
+        // Calcular total de ventas
+        double total_ventas = 0;
+        for (const auto &f : facturas)
         {
-            std::cout << InterfazMejorada::VERDE << "[OK] No hay productos con stock bajo" << InterfazMejorada::RESET << std::endl;
+            total_ventas += f.getTotalFinal();
         }
-        
-        // Mostrar reportes gráficos
-        if (!facturas.empty()) {
-            std::cout << std::endl;
-            GeneradorReportes::reporteVentasPorCategoria(facturas, productos);
-            std::cout << std::endl;
-            GeneradorReportes::reporteProductosMasVendidos(facturas);
+
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[VALORES FINANCIEROS]" << InterfazMejorada::RESET << std::endl;
+        std::cout << "Valor del inventario: " << InterfazMejorada::VERDE << "$" << std::fixed << std::setprecision(2) << valor_inventario << InterfazMejorada::RESET << std::endl;
+        std::cout << "Total en ventas: " << InterfazMejorada::VERDE << "$" << std::fixed << std::setprecision(2) << total_ventas << InterfazMejorada::RESET << std::endl;
+
+        // Análisis de stock
+        int productos_ok = 0, productos_bajo = 0, productos_critico = 0;
+        for (const auto &p : productos)
+        {
+            if (p.getCantidad() < 5)
+                productos_critico++;
+            else if (p.getCantidad() < 15)
+                productos_bajo++;
+            else
+                productos_ok++;
+        }
+
+        std::cout << "\n"
+                  << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[ANALISIS DE STOCK]" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::VERDE << "Stock normal: " << productos_ok << " productos" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::AMARILLO << "Stock bajo: " << productos_bajo << " productos" << InterfazMejorada::RESET << std::endl;
+        std::cout << InterfazMejorada::ROJO << "Stock crítico: " << productos_critico << " productos" << InterfazMejorada::RESET << std::endl;
+
+        if (productos_critico > 0 || productos_bajo > 0)
+        {
+            std::cout << "\n"
+                      << InterfazMejorada::ROJO << "[RECOMENDACION]" << InterfazMejorada::RESET << std::endl;
+            std::cout << "Se requiere reabastecer " << (productos_critico + productos_bajo) << " productos." << std::endl;
+        }
+
+        // Mostrar gráficos si hay datos
+        if (!facturas.empty())
+        {
+            InterfazMejorada::pausar();
+
+            // Gráfico de ventas por categoría
+            std::map<std::string, int> ventas_categoria;
+            for (const auto &factura : facturas)
+            {
+                for (const auto &item : factura.getItems())
+                {
+                    auto prod_it = std::find_if(productos.begin(), productos.end(),
+                                                [&item](const Producto &p)
+                                                { return p.getId() == item.getProductoId(); });
+
+                    if (prod_it != productos.end())
+                    {
+                        ventas_categoria[prod_it->getCategoria()] += item.getCantidad();
+                    }
+                }
+            }
+
+            GeneradorReportes::generarGraficoBarrasElegante(ventas_categoria, "VENTAS POR CATEGORIA");
+            InterfazMejorada::pausar();
+
+            // Gráfico de productos más vendidos
+            std::map<std::string, int> productos_vendidos;
+            for (const auto &factura : facturas)
+            {
+                for (const auto &item : factura.getItems())
+                {
+                    productos_vendidos[item.getNombreProducto()] += item.getCantidad();
+                }
+            }
+
+            // Tomar solo los top 10
+            std::vector<std::pair<std::string, int>> productos_ordenados(productos_vendidos.begin(), productos_vendidos.end());
+            std::sort(productos_ordenados.begin(), productos_ordenados.end(),
+                      [](const auto &a, const auto &b)
+                      { return a.second > b.second; });
+
+            std::map<std::string, int> top_productos;
+            for (size_t i = 0; i < std::min(size_t(10), productos_ordenados.size()); ++i)
+            {
+                top_productos[productos_ordenados[i].first] = productos_ordenados[i].second;
+            }
+
+            GeneradorReportes::generarGraficoBarrasElegante(top_productos, "TOP 10 PRODUCTOS MAS VENDIDOS");
         }
     }
 
     void mostrar_menu()
     {
-        InterfazMejorada::limpiarPantalla();
-        
         // Mostrar alertas pendientes
         SistemaNotificaciones::verificarStockBajo(productos);
         SistemaNotificaciones::mostrarAlertas();
 
-        std::cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA << "\n"
-                  << std::string(55, '=') << std::endl;
-        std::cout << "   SISTEMA DE GESTION - PRODUCTOS FRESCOS" << std::endl;
-        std::cout << std::string(55, '=') << InterfazMejorada::RESET << std::endl;
-        
-        std::cout << InterfazMejorada::BLANCO << "1.  Agregar producto" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "2.  Listar productos" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "3.  Buscar producto por codigo" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "4.  Actualizar inventario" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "5.  Agregar cliente" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "6.  Listar clientes" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "7.  Crear factura" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "8.  Generar codigo de barras" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "9.  Generar reporte de inventario" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "10. Ver estadisticas" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "11. Reimprimir factura como PDF" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "12. Guardar datos" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "13. Cargar datos" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::ROJO << "0.  Salir" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::CYAN << std::string(55, '-') << std::endl;
-        std::cout << ">> Seleccione una opcion: " << InterfazMejorada::RESET;
+        // USAR EL NUEVO MENÚ MEJORADO
+        MenuMejorado::mostrarMenuPrincipal();
     }
 
     void ejecutar()
@@ -1665,13 +2340,22 @@ int main()
         sistema.ejecutar();
 
         std::cout << InterfazMejorada::VERDE << InterfazMejorada::NEGRITA;
-        std::cout << "\n================================================================" << std::endl;
-        std::cout << "||                                                            ||" << std::endl;
-        std::cout << "||            [EXITO] GRACIAS POR USAR EL SISTEMA!           ||" << std::endl;
-        std::cout << "||                                                            ||" << std::endl;
-        std::cout << "||              Hasta la proxima!                            ||" << std::endl;
-        std::cout << "||                                                            ||" << std::endl;
-        std::cout << "================================================================" << std::endl;
+        std::cout << "\n"
+                  << DisenoMejorado::ESQUINA_SUP_IZQ;
+        for (int i = 0; i < 66; i++)
+            std::cout << DisenoMejorado::LINEA_HOR;
+        std::cout << DisenoMejorado::ESQUINA_SUP_DER << std::endl;
+
+        std::cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
+        std::cout << DisenoMejorado::LINEA_VER << "            " << InterfazMejorada::AMARILLO << "[EXITO] GRACIAS POR USAR EL SISTEMA!" << InterfazMejorada::VERDE << "            " << DisenoMejorado::LINEA_VER << std::endl;
+        std::cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
+        std::cout << DisenoMejorado::LINEA_VER << "                      " << InterfazMejorada::BLANCO << "Hasta la proxima!" << InterfazMejorada::VERDE << "                       " << DisenoMejorado::LINEA_VER << std::endl;
+        std::cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
+
+        std::cout << DisenoMejorado::ESQUINA_INF_IZQ;
+        for (int i = 0; i < 66; i++)
+            std::cout << DisenoMejorado::LINEA_HOR;
+        std::cout << DisenoMejorado::ESQUINA_INF_DER << std::endl;
         std::cout << InterfazMejorada::RESET << std::endl;
     }
     catch (const std::exception &e)
@@ -1686,61 +2370,95 @@ int main()
 /*
 === INSTRUCCIONES DE COMPILACIÓN ===
 
-Para compilar este programa mejorado (VERSIÓN CORREGIDA):
+Para compilar este programa mejorado con diseño integrado:
 
-1. Compilar el programa:
-   g++ -std=c++17 -Wall -Wextra -g3 main_mejorado.cpp -o sistema_gestion_mejorado
+1. Asegúrate de tener la librería libharu instalada:
+   - Windows: Descarga desde http://libharu.org/ y configura la ruta
+   - Linux: sudo apt-get install libharu-dev
+   - macOS: brew install libharu
 
-2. Ejecutar:
-   ./sistema_gestion_mejorado (Linux/macOS)
-   sistema_gestion_mejorado.exe (Windows)
+2. Compilar el programa:
+   g++ -std=c++17 -Wall -Wextra -g3 sistema_mejorado.cpp -o sistema_gestion_elegante -lhpdf
 
-=== CORRECCIONES IMPLEMENTADAS ===
+3. Ejecutar:
+   ./sistema_gestion_elegante (Linux/macOS)
+   sistema_gestion_elegante.exe (Windows)
 
-✅ **Problemas de Visualización SOLUCIONADOS:**
-   - ❌ Eliminados TODOS los iconos/emojis que causaban símbolos extraños
-   - ✅ Reemplazados por texto legible: [INFO], [ERROR], [EXITO], etc.
-   - ✅ Interfaz completamente compatible con cualquier consola
-   - ✅ Mantiene colores pero sin caracteres especiales problemáticos
+=== MEJORAS IMPLEMENTADAS ===
 
-✅ **Problema de Duplicación SOLUCIONADO:**
-   - ❌ Corregido: productos y clientes duplicados
-   - ✅ Agregado: productos.clear() y clientes.clear() antes de cargar
-   - ✅ Mejorado: sistema de carga sin duplicados
-   - ✅ Optimizado: gestión de alertas sin repetición
+🎨 **DISEÑO COMPLETAMENTE RENOVADO:**
 
-✅ **Mejoras Adicionales:**
-   - 🔧 Validaciones más robustas
-   - 🔧 Mensajes de error más claros (sin caracteres especiales)
-   - 🔧 Interfaz limpia y profesional
-   - 🔧 Sistema de alertas sin duplicados
-   - 🔧 Colores mantenidos pero texto simple
+✅ **Facturas Profesionales:**
+   - Header de empresa con información completa
+   - Tablas con bordes elegantes usando caracteres ASCII
+   - Resumen de totales en caja destacada
+   - Código QR simulado para autenticidad
+   - Footer profesional con políticas
 
-=== CAMBIOS PRINCIPALES ===
+✅ **Menú Categorizado:**
+   - Opciones organizadas por funcionalidades
+   - Colores diferenciados por sección
+   - Diseño limpio con marcos decorativos
+   - Versión 2.0 del sistema
 
-**ANTES (Problemático):**
-- 🍎 Agregar producto        →  Símbolos extraños
-- 🔔 ALERTAS PENDIENTES      →  Caracteres corruptos  
-- Productos duplicados       →  Múltiples entradas
+✅ **Listas y Tablas Mejoradas:**
+   - Estados visuales (OK, BAJO, CRÍTICO) con colores
+   - Categorización de clientes (VIP, PREMIUM, REGULAR)
+   - Tablas con bordes y separadores elegantes
+   - Información organizada y fácil de leer
 
-**DESPUÉS (Corregido):**
-- 1. Agregar producto        →  Texto claro
-- [!] ALERTAS PENDIENTES     →  Legible en cualquier consola
-- Un producto = una entrada  →  Sin duplicados
+✅ **Reportes Visuales:**
+   - Gráficos de barras con caracteres ASCII
+   - Análisis estadístico detallado
+   - Reportes con diseño profesional
+   - Archivos de respaldo automáticos
 
-=== CARACTERÍSTICAS MANTENIDAS ===
+✅ **Interfaz Completamente Mejorada:**
+   - Cajas decorativas para títulos
+   - Separadores elegantes
+   - Animaciones de carga
+   - Notificaciones con categorías
 
-✅ **Funcionalidad Completa:**
-   - ✅ Todas las funciones originales intactas
-   - ✅ Sistema de colores funcional
-   - ✅ Validaciones robustas
-   - ✅ Reportes con gráficos ASCII (usando # en lugar de █)
-   - ✅ Animaciones de carga
-   - ✅ Sistema de alertas mejorado
+✅ **Sistema de Alertas Avanzado:**
+   - Alertas de stock automáticas
+   - Sin duplicados
+   - Colores según criticidad
+   - Recomendaciones de acción
 
-✅ **Compatibilidad Universal:**
-   - ✅ Windows (cmd, PowerShell)
-   - ✅ Linux (bash, zsh, etc.)
-   - ✅ macOS (Terminal)
-   - ✅ Cualquier consola que soporte colores ANSI
-   */
+=== CARACTERÍSTICAS NUEVAS ===
+
+🚀 **Funcionalidades Añadidas:**
+   - Categorización automática de clientes por puntos
+   - Análisis financiero en estadísticas
+   - Gráficos de ventas por categoría
+   - Top 10 productos más vendidos
+   - Códigos QR simulados en facturas
+   - Reportes con archivos de respaldo
+
+🎯 **Experiencia de Usuario:**
+   - Interfaz intuitiva y profesional
+   - Navegación clara por categorías
+   - Feedback visual inmediato
+   - Animaciones que mejoran la experiencia
+
+🔧 **Robustez Técnica:**
+   - Validaciones mejoradas
+   - Manejo de errores elegante
+   - Compatibilidad universal de caracteres
+   - Código modular y mantenible
+
+=== COMPATIBILIDAD ===
+
+✅ **Multiplataforma:**
+   - Windows (cmd, PowerShell)
+   - Linux (bash, zsh, etc.)
+   - macOS (Terminal)
+   - Cualquier consola con soporte ANSI
+
+✅ **Sin Dependencias Problemáticas:**
+   - Solo caracteres ASCII estándar para diseño
+   - Sin emojis ni símbolos especiales
+   - Compatible con cualquier fuente de consola
+
+¡Tu sistema ahora tiene un diseño completamente profesional y moderno!
+*/
