@@ -1,7 +1,6 @@
 #include "DisenoMejorado.h"
 #include "InterfazMejorada.h"
-#include "Factura.h" // Incluir después para evitar dependencias circulares
-
+#include "Entidades.h"
 // Definición de caracteres de diseño (usando caracteres ASCII estándar)
 const std::string DisenoMejorado::ESQUINA_SUP_IZQ = "+";
 const std::string DisenoMejorado::ESQUINA_SUP_DER = "+";
