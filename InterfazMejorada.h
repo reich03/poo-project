@@ -10,7 +10,6 @@
 class InterfazMejorada
 {
 public:
-    // Colores ANSI para consola
     static const std::string RESET;
     static const std::string ROJO;
     static const std::string VERDE;
@@ -21,7 +20,6 @@ public:
     static const std::string BLANCO;
     static const std::string NEGRITA;
 
-    // Métodos públicos
     static void limpiarPantalla();
     static void mostrarCarga(const std::string &mensaje, int duracion_ms = 1500);
     static void mostrarBannerInicio();
@@ -30,4 +28,4 @@ public:
     static void pausar();
 };
 
-#endif // INTERFAZ_MEJORADA_H
+#endif 

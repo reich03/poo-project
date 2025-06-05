@@ -1,7 +1,6 @@
 #include "DisenoMejorado.h"
 #include "InterfazMejorada.h"
 #include "Entidades.h"
-// Definición de caracteres de diseño (usando caracteres ASCII estándar)
 const std::string DisenoMejorado::ESQUINA_SUP_IZQ = "+";
 const std::string DisenoMejorado::ESQUINA_SUP_DER = "+";
 const std::string DisenoMejorado::ESQUINA_INF_IZQ = "+";
@@ -14,18 +13,15 @@ const std::string DisenoMejorado::T_IZQUIERDA = "+";
 const std::string DisenoMejorado::T_DERECHA = "+";
 const std::string DisenoMejorado::CRUZ = "+";
 
-// Crear caja decorativa
 void DisenoMejorado::crearCaja(const std::string &contenido, int ancho)
 {
     std::cout << InterfazMejorada::CYAN;
 
-    // Línea superior
     std::cout << ESQUINA_SUP_IZQ;
     for (int i = 0; i < ancho - 2; i++)
         std::cout << LINEA_HOR;
     std::cout << ESQUINA_SUP_DER << std::endl;
 
-    // Contenido centrado
     int padding = (ancho - contenido.length() - 2) / 2;
     std::cout << LINEA_VER;
     for (int i = 0; i < padding; i++)
@@ -42,32 +38,27 @@ void DisenoMejorado::crearCaja(const std::string &contenido, int ancho)
     std::cout << ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
 }
 
-// Header de empresa elegante
 void DisenoMejorado::mostrarHeaderEmpresa()
 {
     std::cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA;
 
-    // Marco superior decorativo
     std::cout << "\n" << ESQUINA_SUP_IZQ;
     for (int i = 0; i < 68; i++)
         std::cout << LINEA_HOR;
     std::cout << ESQUINA_SUP_DER << std::endl;
 
-    // Información de la empresa
     std::cout << LINEA_VER << "                    " << InterfazMejorada::VERDE << "SUPERMERCADO PRODUCTOS FRESCOS" << InterfazMejorada::CYAN << "                    " << LINEA_VER << std::endl;
     std::cout << LINEA_VER << "                         " << InterfazMejorada::BLANCO << "Frutas - Verduras - Carnes" << InterfazMejorada::CYAN << "                        " << LINEA_VER << std::endl;
     std::cout << LINEA_VER << "                                                                  " << LINEA_VER << std::endl;
     std::cout << LINEA_VER << "  " << InterfazMejorada::BLANCO << "Tel: (601) 555-0123  |  Email: ventas@productosfrescos.com" << InterfazMejorada::CYAN << "   " << LINEA_VER << std::endl;
     std::cout << LINEA_VER << "           " << InterfazMejorada::BLANCO << "Calle 85 #45-23, Barranquilla, Atlantico" << InterfazMejorada::CYAN << "            " << LINEA_VER << std::endl;
 
-    // Marco inferior decorativo
     std::cout << ESQUINA_INF_IZQ;
     for (int i = 0; i < 68; i++)
         std::cout << LINEA_HOR;
     std::cout << ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
 }
 
-// Separador decorativo
 void DisenoMejorado::mostrarSeparador(char caracter, int longitud, const std::string &color)
 {
     std::string colorUsado = color.empty() ? InterfazMejorada::CYAN : color;
@@ -79,12 +70,10 @@ void DisenoMejorado::mostrarSeparador(char caracter, int longitud, const std::st
     std::cout << InterfazMejorada::RESET << std::endl;
 }
 
-// Tabla con bordes elegantes
 void DisenoMejorado::iniciarTabla(const std::vector<std::string> &headers, const std::vector<int> &anchos)
 {
     std::cout << InterfazMejorada::CYAN;
 
-    // Línea superior
     std::cout << ESQUINA_SUP_IZQ;
     for (size_t i = 0; i < headers.size(); i++)
     {
@@ -95,7 +84,6 @@ void DisenoMejorado::iniciarTabla(const std::vector<std::string> &headers, const
     }
     std::cout << ESQUINA_SUP_DER << std::endl;
 
-    // Headers
     std::cout << LINEA_VER;
     for (size_t i = 0; i < headers.size(); i++)
     {
@@ -107,7 +95,6 @@ void DisenoMejorado::iniciarTabla(const std::vector<std::string> &headers, const
     }
     std::cout << LINEA_VER << InterfazMejorada::RESET << std::endl;
 
-    // Línea separadora
     std::cout << InterfazMejorada::CYAN << T_IZQUIERDA;
     for (size_t i = 0; i < headers.size(); i++)
     {
@@ -145,18 +132,15 @@ void DisenoMejorado::finalizarTabla(const std::vector<int> &anchos)
     std::cout << ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
 }
 
-// Resumen de totales elegante
 void DisenoMejorado::mostrarResumenTotales(const Factura &factura)
 {
     std::cout << "\n" << InterfazMejorada::CYAN;
 
-    // Caja para el resumen
     std::cout << ESQUINA_SUP_IZQ;
     for (int i = 0; i < 40; i++)
         std::cout << LINEA_HOR;
     std::cout << ESQUINA_SUP_DER << std::endl;
 
-    // Función auxiliar para mostrar línea de total
     auto mostrarLineaTotal = [](const std::string &concepto, double valor, const std::string &color = InterfazMejorada::BLANCO)
     {
         std::cout << InterfazMejorada::CYAN << LINEA_VER << color
@@ -179,26 +163,22 @@ void DisenoMejorado::mostrarResumenTotales(const Factura &factura)
         mostrarLineaTotal("Descuento carnes", -factura.getDescuentoCarnes(), InterfazMejorada::VERDE);
     }
 
-    // Línea separadora antes del total
     std::cout << InterfazMejorada::CYAN << T_IZQUIERDA;
     for (int i = 0; i < 40; i++)
         std::cout << LINEA_HOR;
     std::cout << T_DERECHA << std::endl;
 
-    // Total final destacado
     std::cout << LINEA_VER << InterfazMejorada::VERDE << InterfazMejorada::NEGRITA
               << std::right << std::setw(22) << "TOTAL FINAL" << ": $"
               << std::fixed << std::setprecision(2) << std::setw(12) << factura.getTotalFinal()
               << InterfazMejorada::CYAN << " " << LINEA_VER << InterfazMejorada::RESET << std::endl;
 
-    // Marco inferior
     std::cout << InterfazMejorada::CYAN << ESQUINA_INF_IZQ;
     for (int i = 0; i < 40; i++)
         std::cout << LINEA_HOR;
     std::cout << ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
 }
 
-// Footer profesional
 void DisenoMejorado::mostrarFooterFactura()
 {
     std::cout << "\n" << InterfazMejorada::CYAN;

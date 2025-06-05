@@ -16,4 +16,4 @@ public:
     static double leerDoubleSeguro(const std::string &prompt, double min = -DBL_MAX, double max = DBL_MAX);
 };
 
-#endif // VALIDADOR_H
+#endif 

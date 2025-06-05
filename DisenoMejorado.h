@@ -6,13 +6,11 @@
 #include <vector>
 #include <iomanip>
 
-// Forward declaration para evitar dependencias circulares
 class Factura;
 
 class DisenoMejorado
 {
 public:
-    // Caracteres para diseño de cajas y bordes
     static const std::string ESQUINA_SUP_IZQ;
     static const std::string ESQUINA_SUP_DER;
     static const std::string ESQUINA_INF_IZQ;
@@ -25,7 +23,6 @@ public:
     static const std::string T_DERECHA;
     static const std::string CRUZ;
 
-    // Métodos públicos
     static void crearCaja(const std::string &contenido, int ancho = 70);
     static void mostrarHeaderEmpresa();
     static void mostrarSeparador(char caracter = '=', int longitud = 70, const std::string &color = "");
@@ -36,4 +33,4 @@ public:
     static void mostrarFooterFactura();
 };
 
-#endif // DISENO_MEJORADO_H
+#endif

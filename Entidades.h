@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-// Clase base para entidades
 class Entidad
 {
 protected:
@@ -22,7 +21,6 @@ public:
     virtual void fromString(const std::string &data) = 0;
 };
 
-// Clase Producto
 class Producto : public Entidad
 {
 private:
@@ -38,7 +36,6 @@ public:
     Producto(int id, const std::string &nom, const std::string &cat,
              double prec, int cant, bool exento = false, const std::string &orig = "");
 
-    // Getters
     const std::string &getNombre() const;
     const std::string &getCategoria() const;
     double getPrecio() const;
@@ -46,7 +43,6 @@ public:
     bool isExentoIva() const;
     const std::string &getOrigen() const;
 
-    // Setters
     void setNombre(const std::string &nom);
     void setCategoria(const std::string &cat);
     void setPrecio(double prec);
@@ -54,16 +50,13 @@ public:
     void setExentoIva(bool exento);
     void setOrigen(const std::string &orig);
 
-    // Operadores
     Producto &operator=(const Producto &other);
     bool operator==(const Producto &other) const;
 
-    // Polimorfismo virtual
     std::string toString() const override;
     void fromString(const std::string &data) override;
 };
 
-// Clase Cliente
 class Cliente : public Entidad
 {
 private:
@@ -74,7 +67,6 @@ public:
     Cliente();
     Cliente(int id, const std::string &nom, double pts = 0.0);
 
-    // Getters y Setters
     const std::string &getNombre() const;
     double getPuntos() const;
     void setNombre(const std::string &nom);
@@ -86,7 +78,6 @@ public:
     void fromString(const std::string &data) override;
 };
 
-// Clase ItemFactura
 class ItemFactura
 {
 private:
@@ -100,7 +91,6 @@ public:
     ItemFactura();
     ItemFactura(int prod_id, const std::string &nombre, int cant, double precio, bool exento);
 
-    // Getters
     int getProductoId() const;
     const std::string &getNombreProducto() const;
     int getCantidad() const;
@@ -111,7 +101,6 @@ public:
     std::string toString() const;
 };
 
-// Clase Factura
 class Factura
 {
 private:
@@ -126,7 +115,6 @@ public:
     Factura();
     Factura(int num, int cli_id, const std::string &fech);
 
-    // Getters y Setters
     int getNumero() const;
     int getClienteId() const;
     const std::string &getFecha() const;
@@ -148,4 +136,4 @@ public:
     double getTotalFinal() const;
 };
 
-#endif // ENTIDADES_H
+#endif

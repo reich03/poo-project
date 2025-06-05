@@ -1,14 +1,12 @@
 #include "Entidades.h"
 #include <sstream>
 
-// === CLASE ENTIDAD ===
 Entidad::Entidad() : id(0) {}
 Entidad::Entidad(int _id) : id(_id) {}
 
 int Entidad::getId() const { return id; }
 void Entidad::setId(int _id) { id = _id; }
 
-// === CLASE PRODUCTO ===
 Producto::Producto() : Entidad(), precio(0.0), cantidad(0), exento_iva(false) {}
 
 Producto::Producto(int id, const std::string &nom, const std::string &cat,
@@ -16,7 +14,6 @@ Producto::Producto(int id, const std::string &nom, const std::string &cat,
     : Entidad(id), nombre(nom), categoria(cat), precio(prec),
       cantidad(cant), exento_iva(exento), origen(orig) {}
 
-// Getters
 const std::string &Producto::getNombre() const { return nombre; }
 const std::string &Producto::getCategoria() const { return categoria; }
 double Producto::getPrecio() const { return precio; }
@@ -24,7 +21,6 @@ int Producto::getCantidad() const { return cantidad; }
 bool Producto::isExentoIva() const { return exento_iva; }
 const std::string &Producto::getOrigen() const { return origen; }
 
-// Setters
 void Producto::setNombre(const std::string &nom) { nombre = nom; }
 void Producto::setCategoria(const std::string &cat) { categoria = cat; }
 void Producto::setPrecio(double prec) { precio = prec; }
@@ -32,7 +28,6 @@ void Producto::setCantidad(int cant) { cantidad = cant; }
 void Producto::setExentoIva(bool exento) { exento_iva = exento; }
 void Producto::setOrigen(const std::string &orig) { origen = orig; }
 
-// Operadores
 Producto &Producto::operator=(const Producto &other)
 {
     if (this != &other)
@@ -53,7 +48,6 @@ bool Producto::operator==(const Producto &other) const
     return id == other.id;
 }
 
-// Polimorfismo virtual
 std::string Producto::toString() const
 {
     std::ostringstream oss;
@@ -83,13 +77,11 @@ void Producto::fromString(const std::string &data)
         origen = token;
 }
 
-// === CLASE CLIENTE ===
 Cliente::Cliente() : Entidad(), puntos(0.0) {}
 
 Cliente::Cliente(int id, const std::string &nom, double pts)
     : Entidad(id), nombre(nom), puntos(pts) {}
 
-// Getters y Setters
 const std::string &Cliente::getNombre() const { return nombre; }
 double Cliente::getPuntos() const { return puntos; }
 void Cliente::setNombre(const std::string &nom) { nombre = nom; }
@@ -126,14 +118,12 @@ void Cliente::fromString(const std::string &data)
         puntos = std::stod(token);
 }
 
-// === CLASE ITEM FACTURA ===
 ItemFactura::ItemFactura() : producto_id(0), cantidad(0), precio_unitario(0.0), exento_iva(false) {}
 
 ItemFactura::ItemFactura(int prod_id, const std::string &nombre, int cant, double precio, bool exento)
     : producto_id(prod_id), nombre_producto(nombre), cantidad(cant),
       precio_unitario(precio), exento_iva(exento) {}
 
-// Getters
 int ItemFactura::getProductoId() const { return producto_id; }
 const std::string &ItemFactura::getNombreProducto() const { return nombre_producto; }
 int ItemFactura::getCantidad() const { return cantidad; }
@@ -153,13 +143,11 @@ std::string ItemFactura::toString() const
     return oss.str();
 }
 
-// === CLASE FACTURA ===
 Factura::Factura() : numero(0), cliente_id(0), puntos_usados(0.0), descuento_carnes(0.0) {}
 
 Factura::Factura(int num, int cli_id, const std::string &fech)
     : numero(num), cliente_id(cli_id), fecha(fech), puntos_usados(0.0), descuento_carnes(0.0) {}
 
-// Getters y Setters
 int Factura::getNumero() const { return numero; }
 int Factura::getClienteId() const { return cliente_id; }
 const std::string &Factura::getFecha() const { return fecha; }

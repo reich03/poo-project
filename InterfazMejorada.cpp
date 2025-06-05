@@ -1,6 +1,5 @@
 #include "InterfazMejorada.h"
 
-// Definición de constantes de color
 const std::string InterfazMejorada::RESET = "\033[0m";
 const std::string InterfazMejorada::ROJO = "\033[31m";
 const std::string InterfazMejorada::VERDE = "\033[32m";
@@ -11,7 +10,6 @@ const std::string InterfazMejorada::CYAN = "\033[36m";
 const std::string InterfazMejorada::BLANCO = "\033[37m";
 const std::string InterfazMejorada::NEGRITA = "\033[1m";
 
-// Limpiar pantalla multiplataforma
 void InterfazMejorada::limpiarPantalla()
 {
 #ifdef _WIN32
@@ -21,7 +19,6 @@ void InterfazMejorada::limpiarPantalla()
 #endif
 }
 
-// Animación de carga (SIN ICONOS)
 void InterfazMejorada::mostrarCarga(const std::string &mensaje, int duracion_ms)
 {
     std::cout << AMARILLO << mensaje;
@@ -37,7 +34,6 @@ void InterfazMejorada::mostrarCarga(const std::string &mensaje, int duracion_ms)
     std::cout << " " << VERDE << "[OK]" << RESET << std::endl;
 }
 
-// Banner animado (SIN ICONOS)
 void InterfazMejorada::mostrarBannerInicio()
 {
     limpiarPantalla();
@@ -59,7 +55,6 @@ void InterfazMejorada::mostrarBannerInicio()
     std::cout << RESET << std::endl;
 }
 
-// Mostrar notificación con estilo (SIN ICONOS)
 void InterfazMejorada::mostrarNotificacion(const std::string &mensaje, const std::string &tipo)
 {
     std::string color = AZUL;
@@ -84,7 +79,6 @@ void InterfazMejorada::mostrarNotificacion(const std::string &mensaje, const std
     std::cout << color << prefijo << " " << mensaje << RESET << std::endl;
 }
 
-// Título con estilo (SIN ICONOS)
 void InterfazMejorada::mostrarTitulo(const std::string &titulo)
 {
     std::cout << CYAN << NEGRITA << "\n+--" << std::string(titulo.length() + 2, '-') << "--+" << std::endl;
