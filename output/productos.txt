@@ -1,0 +1,2 @@
+1|ejemplo producto|carnes|25000|11|1|rio
+1|ejemplo producto|carnes|25000|1|1|rio

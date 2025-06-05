@@ -1,0 +1,7 @@
+=== REPORTE DE INVENTARIO ===
+Fecha: Thu Jun  5 06:48:17 2025
+
+ID: 1 | Nombre: ejemplo producto | Stock: 7 | Precio: $25000.00 | Valor: $175000.00
+ID: 1 | Nombre: ejemplo producto | Stock: 1 | Precio: $25000.00 | Valor: $25000.00
+
+VALOR TOTAL DEL INVENTARIO: $200000.00

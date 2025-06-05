@@ -1,0 +1,2 @@
+Producto: ejemplo producto
+Código de barras: 7501006
