@@ -1,6 +1,9 @@
 #include "DisenoMejorado.h"
 #include "InterfazMejorada.h"
 #include "Entidades.h"
+#include <iostream>
+
+using namespace std;
 const std::string DisenoMejorado::ESQUINA_SUP_IZQ = "+";
 const std::string DisenoMejorado::ESQUINA_SUP_DER = "+";
 const std::string DisenoMejorado::ESQUINA_INF_IZQ = "+";

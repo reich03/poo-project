@@ -1,4 +1,6 @@
 #include "InterfazMejorada.h"
+#include <iostream>
+
 using namespace std;
 
 const std::string InterfazMejorada::RESET = "\033[0m";
