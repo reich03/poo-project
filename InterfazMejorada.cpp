@@ -1,4 +1,5 @@
 #include "InterfazMejorada.h"
+using namespace std;
 
 const std::string InterfazMejorada::RESET = "\033[0m";
 const std::string InterfazMejorada::ROJO = "\033[31m";
@@ -21,23 +22,23 @@ void InterfazMejorada::limpiarPantalla()
 
 void InterfazMejorada::mostrarCarga(const std::string &mensaje, int duracion_ms)
 {
-    std::cout << AMARILLO << mensaje;
+    cout << AMARILLO << mensaje;
     char animacion[] = {'|', '/', '-', '\\'};
     int pasos = duracion_ms / 100;
 
     for (int i = 0; i < pasos; ++i)
     {
-        std::cout << " " << CYAN << animacion[i % 4] << "\r" << AMARILLO << mensaje;
-        std::cout.flush();
+        cout << " " << CYAN << animacion[i % 4] << "\r" << AMARILLO << mensaje;
+        cout.flush();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    std::cout << " " << VERDE << "[OK]" << RESET << std::endl;
+    cout << " " << VERDE << "[OK]" << RESET << std::endl;
 }
 
 void InterfazMejorada::mostrarBannerInicio()
 {
     limpiarPantalla();
-    std::cout << CYAN << NEGRITA;
+    cout << CYAN << NEGRITA;
     std::string lineas[] = {
         "================================================================",
         "||                                                            ||",
@@ -49,10 +50,10 @@ void InterfazMejorada::mostrarBannerInicio()
 
     for (const auto &linea : lineas)
     {
-        std::cout << linea << std::endl;
+        cout << linea << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
-    std::cout << RESET << std::endl;
+    cout << RESET << std::endl;
 }
 
 void InterfazMejorada::mostrarNotificacion(const std::string &mensaje, const std::string &tipo)
@@ -76,19 +77,19 @@ void InterfazMejorada::mostrarNotificacion(const std::string &mensaje, const std
         prefijo = "[ADVERTENCIA]";
     }
 
-    std::cout << color << prefijo << " " << mensaje << RESET << std::endl;
+    cout << color << prefijo << " " << mensaje << RESET << std::endl;
 }
 
 void InterfazMejorada::mostrarTitulo(const std::string &titulo)
 {
-    std::cout << CYAN << NEGRITA << "\n+--" << std::string(titulo.length() + 2, '-') << "--+" << std::endl;
-    std::cout << "|  " << titulo << "  |" << std::endl;
-    std::cout << "+--" << std::string(titulo.length() + 2, '-') << "--+" << RESET << std::endl;
+    cout << CYAN << NEGRITA << "\n+--" << std::string(titulo.length() + 2, '-') << "--+" << std::endl;
+    cout << "|  " << titulo << "  |" << std::endl;
+    cout << "+--" << std::string(titulo.length() + 2, '-') << "--+" << RESET << std::endl;
 }
 
 void InterfazMejorada::pausar()
 {
-    std::cout << AMARILLO << "\n>> Presione Enter para continuar..." << RESET;
+    cout << AMARILLO << "\n>> Presione Enter para continuar..." << RESET;
     std::cin.ignore();
     std::cin.get();
 }

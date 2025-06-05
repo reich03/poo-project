@@ -21,6 +21,7 @@
 #include "Entidades.h"
 
 #include <C:\Users\redjh\Desktop\Cristian\libharu\include\hpdf.h>
+using namespace std;
 
 class BusinessException : public std::exception
 {
@@ -60,12 +61,12 @@ public:
     {
         if (!alertas_pendientes.empty())
         {
-            std::cout << InterfazMejorada::AMARILLO << "[!] ALERTAS PENDIENTES:" << InterfazMejorada::RESET << std::endl;
+            cout << InterfazMejorada::AMARILLO << "[!] ALERTAS PENDIENTES:" << InterfazMejorada::RESET << std::endl;
             for (const auto &alerta : alertas_pendientes)
             {
-                std::cout << "  - " << alerta << std::endl;
+                cout << "  - " << alerta << std::endl;
             }
-            std::cout << std::endl;
+            cout << std::endl;
         }
     }
 
@@ -203,8 +204,8 @@ public:
 
     static void generarRepresentacionVisual(const std::string &codigo)
     {
-        std::cout << InterfazMejorada::VERDE << "\n[CODIGO DE BARRAS] Representacion visual:" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::NEGRITA;
+        cout << InterfazMejorada::VERDE << "\n[CODIGO DE BARRAS] Representacion visual:" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::NEGRITA;
         for (char c : codigo)
         {
             int digit = c - '0';
@@ -212,16 +213,16 @@ public:
             {
                 if ((digit + i) % 2 == 0)
                 {
-                    std::cout << "|";
+                    cout << "|";
                 }
                 else
                 {
-                    std::cout << " ";
+                    cout << " ";
                 }
             }
-            std::cout << " ";
+            cout << " ";
         }
-        std::cout << InterfazMejorada::RESET << "\n"
+        cout << InterfazMejorada::RESET << "\n"
                   << codigo << std::endl;
     }
 
@@ -320,27 +321,27 @@ public:
 
         DisenoMejorado::mostrarHeaderEmpresa();
 
-        std::cout << "\n";
+        cout << "\n";
         DisenoMejorado::crearCaja("FACTURA DE VENTA", 70);
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA;
-        std::cout << "Factura No: " << InterfazMejorada::VERDE << std::setw(15) << std::left << factura.getNumero()
+        cout << "Factura No: " << InterfazMejorada::VERDE << std::setw(15) << std::left << factura.getNumero()
                   << InterfazMejorada::AMARILLO << "   Fecha: " << InterfazMejorada::VERDE << factura.getFecha() << InterfazMejorada::RESET << std::endl;
 
         if (cliente != nullptr)
         {
-            std::cout << InterfazMejorada::AMARILLO << "Cliente: " << InterfazMejorada::VERDE << cliente->getNombre()
+            cout << InterfazMejorada::AMARILLO << "Cliente: " << InterfazMejorada::VERDE << cliente->getNombre()
                       << InterfazMejorada::AMARILLO << " (ID: " << cliente->getId() << ")" << InterfazMejorada::RESET << std::endl;
-            std::cout << InterfazMejorada::AMARILLO << "Puntos disponibles: " << InterfazMejorada::VERDE
+            cout << InterfazMejorada::AMARILLO << "Puntos disponibles: " << InterfazMejorada::VERDE
                       << std::fixed << std::setprecision(2) << cliente->getPuntos() << InterfazMejorada::RESET << std::endl;
         }
         else
         {
-            std::cout << InterfazMejorada::AMARILLO << "Cliente: " << InterfazMejorada::BLANCO << "Cliente sin registro" << InterfazMejorada::RESET << std::endl;
+            cout << InterfazMejorada::AMARILLO << "Cliente: " << InterfazMejorada::BLANCO << "Cliente sin registro" << InterfazMejorada::RESET << std::endl;
         }
 
-        std::cout << "\n";
+        cout << "\n";
 
         std::vector<std::string> headers = {"Producto", "Cant.", "P.Unit", "Subtotal", "IVA"};
         std::vector<int> anchos = {25, 6, 10, 12, 5};
@@ -370,21 +371,21 @@ public:
 
         if (factura.getPuntosUsados() > 0 || factura.getDescuentoCarnes() > 0)
         {
-            std::cout << "\n"
+            cout << "\n"
                       << InterfazMejorada::VERDE << "[DESCUENTOS APLICADOS]" << InterfazMejorada::RESET << std::endl;
             if (factura.getPuntosUsados() > 0)
             {
-                std::cout << "  * Puntos utilizados: " << InterfazMejorada::VERDE << factura.getPuntosUsados() << " puntos" << InterfazMejorada::RESET << std::endl;
+                cout << "  * Puntos utilizados: " << InterfazMejorada::VERDE << factura.getPuntosUsados() << " puntos" << InterfazMejorada::RESET << std::endl;
             }
             if (factura.getDescuentoCarnes() > 0)
             {
-                std::cout << "  * " << InterfazMejorada::VERDE << "FELICIDADES! Gano el sorteo de carnes (10% desc.)" << InterfazMejorada::RESET << std::endl;
+                cout << "  * " << InterfazMejorada::VERDE << "FELICIDADES! Gano el sorteo de carnes (10% desc.)" << InterfazMejorada::RESET << std::endl;
             }
         }
 
         DisenoMejorado::mostrarFooterFactura();
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::CYAN << "Codigo QR de la factura:" << InterfazMejorada::RESET << std::endl;
         mostrarCodigoQRSimulado(factura.getNumero());
     }
@@ -392,38 +393,38 @@ public:
 private:
     static void mostrarCodigoQRSimulado(int numeroFactura)
     {
-        std::cout << InterfazMejorada::BLANCO;
+        cout << InterfazMejorada::BLANCO;
 
         srand(numeroFactura);
 
-        std::cout << "  +";
+        cout << "  +";
         for (int i = 0; i < 20; i++)
-            std::cout << "-";
-        std::cout << "+" << std::endl;
+            cout << "-";
+        cout << "+" << std::endl;
 
         for (int fila = 0; fila < 8; fila++)
         {
-            std::cout << "  |";
+            cout << "  |";
             for (int col = 0; col < 20; col++)
             {
                 if ((fila + col + numeroFactura) % 3 == 0)
                 {
-                    std::cout << "#";
+                    cout << "#";
                 }
                 else
                 {
-                    std::cout << " ";
+                    cout << " ";
                 }
             }
-            std::cout << "|" << std::endl;
+            cout << "|" << std::endl;
         }
 
-        std::cout << "  +";
+        cout << "  +";
         for (int i = 0; i < 20; i++)
-            std::cout << "-";
-        std::cout << "+" << InterfazMejorada::RESET << std::endl;
+            cout << "-";
+        cout << "+" << InterfazMejorada::RESET << std::endl;
 
-        std::cout << InterfazMejorada::CYAN << "    Factura #" << numeroFactura << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::CYAN << "    Factura #" << numeroFactura << InterfazMejorada::RESET << std::endl;
     }
 };
 
@@ -435,54 +436,54 @@ public:
     {
         InterfazMejorada::limpiarPantalla();
 
-        std::cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA;
-        std::cout << "\n"
+        cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA;
+        cout << "\n"
                   << DisenoMejorado::ESQUINA_SUP_IZQ;
         for (int i = 0; i < 68; i++)
-            std::cout << DisenoMejorado::LINEA_HOR;
-        std::cout << DisenoMejorado::ESQUINA_SUP_DER << std::endl;
+            cout << DisenoMejorado::LINEA_HOR;
+        cout << DisenoMejorado::ESQUINA_SUP_DER << std::endl;
 
-        std::cout << DisenoMejorado::LINEA_VER << "                                                                  " << DisenoMejorado::LINEA_VER << std::endl;
-        std::cout << DisenoMejorado::LINEA_VER << "       " << InterfazMejorada::VERDE << "SISTEMA DE GESTION - PRODUCTOS FRESCOS v2.0" << InterfazMejorada::CYAN << "        " << DisenoMejorado::LINEA_VER << std::endl;
-        std::cout << DisenoMejorado::LINEA_VER << "                                                                  " << DisenoMejorado::LINEA_VER << std::endl;
+        cout << DisenoMejorado::LINEA_VER << "                                                                  " << DisenoMejorado::LINEA_VER << std::endl;
+        cout << DisenoMejorado::LINEA_VER << "       " << InterfazMejorada::VERDE << "SISTEMA DE GESTION - PRODUCTOS FRESCOS v2.0" << InterfazMejorada::CYAN << "        " << DisenoMejorado::LINEA_VER << std::endl;
+        cout << DisenoMejorado::LINEA_VER << "                                                                  " << DisenoMejorado::LINEA_VER << std::endl;
 
-        std::cout << DisenoMejorado::ESQUINA_INF_IZQ;
+        cout << DisenoMejorado::ESQUINA_INF_IZQ;
         for (int i = 0; i < 68; i++)
-            std::cout << DisenoMejorado::LINEA_HOR;
-        std::cout << DisenoMejorado::ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
+            cout << DisenoMejorado::LINEA_HOR;
+        cout << DisenoMejorado::ESQUINA_INF_DER << InterfazMejorada::RESET << std::endl;
 
         // Opciones del menú organizadas por categorías
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[GESTION DE PRODUCTOS]" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  1. " << InterfazMejorada::VERDE << "Agregar producto" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  2. " << InterfazMejorada::VERDE << "Listar productos" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  3. " << InterfazMejorada::VERDE << "Buscar producto por codigo" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  4. " << InterfazMejorada::VERDE << "Actualizar inventario" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  1. " << InterfazMejorada::VERDE << "Agregar producto" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  2. " << InterfazMejorada::VERDE << "Listar productos" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  3. " << InterfazMejorada::VERDE << "Buscar producto por codigo" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  4. " << InterfazMejorada::VERDE << "Actualizar inventario" << InterfazMejorada::RESET << std::endl;
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[GESTION DE CLIENTES]" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  5. " << InterfazMejorada::CYAN << "Agregar cliente" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  6. " << InterfazMejorada::CYAN << "Listar clientes" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  5. " << InterfazMejorada::CYAN << "Agregar cliente" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  6. " << InterfazMejorada::CYAN << "Listar clientes" << InterfazMejorada::RESET << std::endl;
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[FACTURACION Y VENTAS]" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  7. " << InterfazMejorada::MAGENTA << "Crear factura" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << " 11. " << InterfazMejorada::MAGENTA << "Reimprimir factura como PDF" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  7. " << InterfazMejorada::MAGENTA << "Crear factura" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << " 11. " << InterfazMejorada::MAGENTA << "Reimprimir factura como PDF" << InterfazMejorada::RESET << std::endl;
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[HERRAMIENTAS Y REPORTES]" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  8. " << InterfazMejorada::AMARILLO << "Generar codigo de barras" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << "  9. " << InterfazMejorada::AMARILLO << "Generar reporte de inventario" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << " 10. " << InterfazMejorada::AMARILLO << "Ver estadisticas" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  8. " << InterfazMejorada::AMARILLO << "Generar codigo de barras" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << "  9. " << InterfazMejorada::AMARILLO << "Generar reporte de inventario" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << " 10. " << InterfazMejorada::AMARILLO << "Ver estadisticas" << InterfazMejorada::RESET << std::endl;
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[SISTEMA]" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << " 12. " << InterfazMejorada::BLANCO << "Guardar datos" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::BLANCO << " 13. " << InterfazMejorada::BLANCO << "Cargar datos" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::ROJO << "  0. " << InterfazMejorada::ROJO << "Salir" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << " 12. " << InterfazMejorada::BLANCO << "Guardar datos" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::BLANCO << " 13. " << InterfazMejorada::BLANCO << "Cargar datos" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::ROJO << "  0. " << InterfazMejorada::ROJO << "Salir" << InterfazMejorada::RESET << std::endl;
 
         DisenoMejorado::mostrarSeparador('-', 70, InterfazMejorada::CYAN);
-        std::cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA << ">> Seleccione una opcion: " << InterfazMejorada::RESET;
+        cout << InterfazMejorada::CYAN << InterfazMejorada::NEGRITA << ">> Seleccione una opcion: " << InterfazMejorada::RESET;
     }
 };
 
@@ -497,7 +498,7 @@ public:
 
         if (datos.empty())
         {
-            std::cout << InterfazMejorada::AMARILLO << "No hay datos para mostrar." << InterfazMejorada::RESET << std::endl;
+            cout << InterfazMejorada::AMARILLO << "No hay datos para mostrar." << InterfazMejorada::RESET << std::endl;
             return;
         }
 
@@ -508,29 +509,29 @@ public:
         }
 
         const int max_barras = 50;
-        std::cout << "\n";
+        cout << "\n";
 
         for (const auto &par : datos)
         {
             int longitud_barra = max_valor > 0 ? (par.second * max_barras) / max_valor : 0;
 
-            std::cout << InterfazMejorada::CYAN << std::left << std::setw(20) << par.first << InterfazMejorada::RESET << " ";
+            cout << InterfazMejorada::CYAN << std::left << std::setw(20) << par.first << InterfazMejorada::RESET << " ";
 
-            std::cout << InterfazMejorada::VERDE << "|";
+            cout << InterfazMejorada::VERDE << "|";
             for (int i = 0; i < longitud_barra; ++i)
             {
-                std::cout << "#";
+                cout << "#";
             }
 
             for (int i = longitud_barra; i < max_barras; ++i)
             {
-                std::cout << " ";
+                cout << " ";
             }
 
-            std::cout << "| " << InterfazMejorada::AMARILLO << par.second << InterfazMejorada::RESET << std::endl;
+            cout << "| " << InterfazMejorada::AMARILLO << par.second << InterfazMejorada::RESET << std::endl;
         }
 
-        std::cout << "\n";
+        cout << "\n";
         DisenoMejorado::mostrarSeparador('=', 70, InterfazMejorada::CYAN);
     }
 };
@@ -609,11 +610,11 @@ public:
             std::string nombre = Validador::leerEntradaSegura("Nombre del producto: ");
             nuevo.setNombre(nombre);
 
-            std::cout << InterfazMejorada::CYAN << "\nCategorias disponibles:" << InterfazMejorada::RESET << std::endl;
-            std::cout << "1. Frutas" << std::endl;
-            std::cout << "2. Verduras" << std::endl;
-            std::cout << "3. Carnes" << std::endl;
-            std::cout << "4. Productos individuales" << std::endl;
+            cout << InterfazMejorada::CYAN << "\nCategorias disponibles:" << InterfazMejorada::RESET << std::endl;
+            cout << "1. Frutas" << std::endl;
+            cout << "2. Verduras" << std::endl;
+            cout << "3. Carnes" << std::endl;
+            cout << "4. Productos individuales" << std::endl;
 
             int cat_opcion = Validador::leerEnteroSeguro(">> Seleccione categoria (1-4): ", 1, 4);
 
@@ -730,16 +731,16 @@ public:
 
         if (it != productos.end())
         {
-            std::cout << InterfazMejorada::VERDE << "\n[ENCONTRADO] PRODUCTO ENCONTRADO" << InterfazMejorada::RESET << std::endl;
-            std::cout << "ID: " << it->getId() << std::endl;
-            std::cout << "Nombre: " << it->getNombre() << std::endl;
-            std::cout << "Categoria: " << it->getCategoria() << std::endl;
-            std::cout << "Precio: $" << std::fixed << std::setprecision(2) << it->getPrecio() << std::endl;
-            std::cout << "Stock: " << it->getCantidad() << std::endl;
-            std::cout << "IVA: " << (it->isExentoIva() ? "Exento" : "Incluido") << std::endl;
+            cout << InterfazMejorada::VERDE << "\n[ENCONTRADO] PRODUCTO ENCONTRADO" << InterfazMejorada::RESET << std::endl;
+            cout << "ID: " << it->getId() << std::endl;
+            cout << "Nombre: " << it->getNombre() << std::endl;
+            cout << "Categoria: " << it->getCategoria() << std::endl;
+            cout << "Precio: $" << std::fixed << std::setprecision(2) << it->getPrecio() << std::endl;
+            cout << "Stock: " << it->getCantidad() << std::endl;
+            cout << "IVA: " << (it->isExentoIva() ? "Exento" : "Incluido") << std::endl;
             if (!it->getOrigen().empty())
             {
-                std::cout << "Origen: " << it->getOrigen() << std::endl;
+                cout << "Origen: " << it->getOrigen() << std::endl;
             }
         }
         else
@@ -764,7 +765,7 @@ public:
 
         if (it != productos.end())
         {
-            std::cout << "Stock actual: " << InterfazMejorada::AMARILLO << it->getCantidad() << InterfazMejorada::RESET << std::endl;
+            cout << "Stock actual: " << InterfazMejorada::AMARILLO << it->getCantidad() << InterfazMejorada::RESET << std::endl;
             int nueva_cantidad = Validador::leerEnteroSeguro("Nueva cantidad: ", 0, 99999);
 
             it->setCantidad(nueva_cantidad);
@@ -839,9 +840,9 @@ public:
 
         DisenoMejorado::finalizarTabla(anchos);
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::CYAN << "[LEYENDA]" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::VERDE << "VIP: 100+ puntos  " << InterfazMejorada::AMARILLO << "PREMIUM: 50-99 puntos  " << InterfazMejorada::BLANCO << "REGULAR: 0-49 puntos" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::VERDE << "VIP: 100+ puntos  " << InterfazMejorada::AMARILLO << "PREMIUM: 50-99 puntos  " << InterfazMejorada::BLANCO << "REGULAR: 0-49 puntos" << InterfazMejorada::RESET << std::endl;
     }
 
     void crear_factura()
@@ -860,7 +861,7 @@ public:
             fecha.pop_back(); 
             nueva_factura.setFecha(fecha);
 
-            std::cout << InterfazMejorada::AMARILLO << "Factura No: " << nueva_factura.getNumero() << InterfazMejorada::RESET << std::endl;
+            cout << InterfazMejorada::AMARILLO << "Factura No: " << nueva_factura.getNumero() << InterfazMejorada::RESET << std::endl;
 
             listar_clientes();
             int cliente_id = Validador::leerEnteroSeguro("\nIngrese ID del cliente (0 para cliente sin registro): ", 0, 99999);
@@ -875,7 +876,7 @@ public:
                 if (it != clientes.end())
                 {
                     cliente_actual = &(*it);
-                    std::cout << InterfazMejorada::VERDE << "[CLIENTE] " << cliente_actual->getNombre()
+                    cout << InterfazMejorada::VERDE << "[CLIENTE] " << cliente_actual->getNombre()
                               << " (Puntos: " << cliente_actual->getPuntos() << ")" << InterfazMejorada::RESET << std::endl;
                 }
                 else
@@ -908,7 +909,7 @@ public:
                     continue;
                 }
 
-                std::cout << "Stock disponible: " << InterfazMejorada::AMARILLO << prod_it->getCantidad() << InterfazMejorada::RESET << std::endl;
+                cout << "Stock disponible: " << InterfazMejorada::AMARILLO << prod_it->getCantidad() << InterfazMejorada::RESET << std::endl;
                 int cantidad = Validador::leerEnteroSeguro("Cantidad requerida: ", 1, prod_it->getCantidad());
 
                 if (cantidad > prod_it->getCantidad())
@@ -925,7 +926,7 @@ public:
 
                 InterfazMejorada::mostrarNotificacion("Producto agregado a la factura", "exito");
 
-                std::cout << InterfazMejorada::CYAN << ">> ¿Agregar otro producto? (S/N): " << InterfazMejorada::RESET;
+                cout << InterfazMejorada::CYAN << ">> ¿Agregar otro producto? (S/N): " << InterfazMejorada::RESET;
                 std::cin >> continuar;
             }
 
@@ -939,7 +940,7 @@ public:
             {
                 if (cliente_actual->getPuntos() > 0)
                 {
-                    std::cout << InterfazMejorada::AMARILLO << "Puntos disponibles: " << cliente_actual->getPuntos() << InterfazMejorada::RESET << std::endl;
+                    cout << InterfazMejorada::AMARILLO << "Puntos disponibles: " << cliente_actual->getPuntos() << InterfazMejorada::RESET << std::endl;
                     double puntos_usar = Validador::leerDoubleSeguro("¿Cuantos puntos desea usar? (1 punto = $1): ", 0, cliente_actual->getPuntos());
 
                     if (puntos_usar > 0 && cliente_actual->usarPuntos(puntos_usar))
@@ -1024,9 +1025,9 @@ public:
         {
             std::string codigo = GeneradorCodigoBarras::generarCodigo(*it);
 
-            std::cout << InterfazMejorada::VERDE << "\n[CODIGO GENERADO]" << InterfazMejorada::RESET << std::endl;
-            std::cout << "Producto: " << it->getNombre() << std::endl;
-            std::cout << "Codigo: " << InterfazMejorada::AMARILLO << codigo << InterfazMejorada::RESET << std::endl;
+            cout << InterfazMejorada::VERDE << "\n[CODIGO GENERADO]" << InterfazMejorada::RESET << std::endl;
+            cout << "Producto: " << it->getNombre() << std::endl;
+            cout << "Codigo: " << InterfazMejorada::AMARILLO << codigo << InterfazMejorada::RESET << std::endl;
 
             GeneradorCodigoBarras::generarRepresentacionVisual(codigo);
             GeneradorCodigoBarras::guardarCodigoEnArchivo(*it, codigo);
@@ -1047,13 +1048,13 @@ public:
         std::string fecha(dt);
         fecha.pop_back();
 
-        std::cout << InterfazMejorada::AMARILLO << "Fecha del reporte: " << InterfazMejorada::VERDE << fecha << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::AMARILLO << "Total de productos: " << InterfazMejorada::VERDE << productos.size() << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::AMARILLO << "Fecha del reporte: " << InterfazMejorada::VERDE << fecha << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::AMARILLO << "Total de productos: " << InterfazMejorada::VERDE << productos.size() << InterfazMejorada::RESET << std::endl;
 
         std::vector<std::string> headers = {"ID", "Producto", "Categoria", "Stock", "Precio", "Valor Total", "Estado"};
         std::vector<int> anchos = {4, 20, 15, 8, 10, 12, 10};
 
-        std::cout << "\n";
+        cout << "\n";
         DisenoMejorado::iniciarTabla(headers, anchos);
 
         double valorTotal = 0;
@@ -1103,19 +1104,19 @@ public:
 
         DisenoMejorado::finalizarTabla(anchos);
 
-        std::cout << "\n";
+        cout << "\n";
         DisenoMejorado::crearCaja("RESUMEN ESTADISTICO", 60);
 
-        std::cout << InterfazMejorada::VERDE << "Valor total del inventario: $" << std::fixed << std::setprecision(2) << valorTotal << InterfazMejorada::RESET << std::endl;
-        std::cout << "Productos en stock normal: " << InterfazMejorada::VERDE << (productos.size() - productosStockBajo - productosStockCritico) << InterfazMejorada::RESET << std::endl;
-        std::cout << "Productos con stock bajo: " << InterfazMejorada::AMARILLO << productosStockBajo << InterfazMejorada::RESET << std::endl;
-        std::cout << "Productos con stock critico: " << InterfazMejorada::ROJO << productosStockCritico << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::VERDE << "Valor total del inventario: $" << std::fixed << std::setprecision(2) << valorTotal << InterfazMejorada::RESET << std::endl;
+        cout << "Productos en stock normal: " << InterfazMejorada::VERDE << (productos.size() - productosStockBajo - productosStockCritico) << InterfazMejorada::RESET << std::endl;
+        cout << "Productos con stock bajo: " << InterfazMejorada::AMARILLO << productosStockBajo << InterfazMejorada::RESET << std::endl;
+        cout << "Productos con stock critico: " << InterfazMejorada::ROJO << productosStockCritico << InterfazMejorada::RESET << std::endl;
 
         if (productosStockCritico > 0 || productosStockBajo > 0)
         {
-            std::cout << "\n"
+            cout << "\n"
                       << InterfazMejorada::ROJO << "[ATENCION REQUERIDA]" << InterfazMejorada::RESET << std::endl;
-            std::cout << "Se recomienda reabastecer productos con stock bajo o critico." << std::endl;
+            cout << "Se recomienda reabastecer productos con stock bajo o critico." << std::endl;
         }
 
         std::ofstream reporte("reporte_inventario_detallado.txt");
@@ -1224,7 +1225,7 @@ public:
         InterfazMejorada::limpiarPantalla();
         DisenoMejorado::crearCaja("ESTADISTICAS DEL SISTEMA", 70);
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[RESUMEN GENERAL]" << InterfazMejorada::RESET << std::endl;
 
         std::vector<std::string> stats_headers = {"Concepto", "Cantidad", "Observaciones"};
@@ -1264,10 +1265,10 @@ public:
             total_ventas += f.getTotalFinal();
         }
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[VALORES FINANCIEROS]" << InterfazMejorada::RESET << std::endl;
-        std::cout << "Valor del inventario: " << InterfazMejorada::VERDE << "$" << std::fixed << std::setprecision(2) << valor_inventario << InterfazMejorada::RESET << std::endl;
-        std::cout << "Total en ventas: " << InterfazMejorada::VERDE << "$" << std::fixed << std::setprecision(2) << total_ventas << InterfazMejorada::RESET << std::endl;
+        cout << "Valor del inventario: " << InterfazMejorada::VERDE << "$" << std::fixed << std::setprecision(2) << valor_inventario << InterfazMejorada::RESET << std::endl;
+        cout << "Total en ventas: " << InterfazMejorada::VERDE << "$" << std::fixed << std::setprecision(2) << total_ventas << InterfazMejorada::RESET << std::endl;
 
         int productos_ok = 0, productos_bajo = 0, productos_critico = 0;
         for (const auto &p : productos)
@@ -1280,17 +1281,17 @@ public:
                 productos_ok++;
         }
 
-        std::cout << "\n"
+        cout << "\n"
                   << InterfazMejorada::AMARILLO << InterfazMejorada::NEGRITA << "[ANALISIS DE STOCK]" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::VERDE << "Stock normal: " << productos_ok << " productos" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::AMARILLO << "Stock bajo: " << productos_bajo << " productos" << InterfazMejorada::RESET << std::endl;
-        std::cout << InterfazMejorada::ROJO << "Stock crítico: " << productos_critico << " productos" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::VERDE << "Stock normal: " << productos_ok << " productos" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::AMARILLO << "Stock bajo: " << productos_bajo << " productos" << InterfazMejorada::RESET << std::endl;
+        cout << InterfazMejorada::ROJO << "Stock crítico: " << productos_critico << " productos" << InterfazMejorada::RESET << std::endl;
 
         if (productos_critico > 0 || productos_bajo > 0)
         {
-            std::cout << "\n"
+            cout << "\n"
                       << InterfazMejorada::ROJO << "[RECOMENDACION]" << InterfazMejorada::RESET << std::endl;
-            std::cout << "Se requiere reabastecer " << (productos_critico + productos_bajo) << " productos." << std::endl;
+            cout << "Se requiere reabastecer " << (productos_critico + productos_bajo) << " productos." << std::endl;
         }
 
         if (!facturas.empty())
@@ -1439,24 +1440,24 @@ int main()
         SistemaGestion sistema;
         sistema.ejecutar();
 
-        std::cout << InterfazMejorada::VERDE << InterfazMejorada::NEGRITA;
-        std::cout << "\n"
+        cout << InterfazMejorada::VERDE << InterfazMejorada::NEGRITA;
+        cout << "\n"
                   << DisenoMejorado::ESQUINA_SUP_IZQ;
         for (int i = 0; i < 66; i++)
-            std::cout << DisenoMejorado::LINEA_HOR;
-        std::cout << DisenoMejorado::ESQUINA_SUP_DER << std::endl;
+            cout << DisenoMejorado::LINEA_HOR;
+        cout << DisenoMejorado::ESQUINA_SUP_DER << std::endl;
 
-        std::cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
-        std::cout << DisenoMejorado::LINEA_VER << "            " << InterfazMejorada::AMARILLO << "[EXITO] GRACIAS POR USAR EL SISTEMA!" << InterfazMejorada::VERDE << "            " << DisenoMejorado::LINEA_VER << std::endl;
-        std::cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
-        std::cout << DisenoMejorado::LINEA_VER << "                      " << InterfazMejorada::BLANCO << "Hasta la proxima!" << InterfazMejorada::VERDE << "                       " << DisenoMejorado::LINEA_VER << std::endl;
-        std::cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
+        cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
+        cout << DisenoMejorado::LINEA_VER << "            " << InterfazMejorada::AMARILLO << "[EXITO] GRACIAS POR USAR EL SISTEMA!" << InterfazMejorada::VERDE << "            " << DisenoMejorado::LINEA_VER << std::endl;
+        cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
+        cout << DisenoMejorado::LINEA_VER << "                      " << InterfazMejorada::BLANCO << "Hasta la proxima!" << InterfazMejorada::VERDE << "                       " << DisenoMejorado::LINEA_VER << std::endl;
+        cout << DisenoMejorado::LINEA_VER << "                                                                " << DisenoMejorado::LINEA_VER << std::endl;
 
-        std::cout << DisenoMejorado::ESQUINA_INF_IZQ;
+        cout << DisenoMejorado::ESQUINA_INF_IZQ;
         for (int i = 0; i < 66; i++)
-            std::cout << DisenoMejorado::LINEA_HOR;
-        std::cout << DisenoMejorado::ESQUINA_INF_DER << std::endl;
-        std::cout << InterfazMejorada::RESET << std::endl;
+            cout << DisenoMejorado::LINEA_HOR;
+        cout << DisenoMejorado::ESQUINA_INF_DER << std::endl;
+        cout << InterfazMejorada::RESET << std::endl;
     }
     catch (const std::exception &e)
     {

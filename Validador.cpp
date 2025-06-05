@@ -1,6 +1,7 @@
 #include "Validador.h"
 #include "InterfazMejorada.h"
 #include <iostream>
+using namespace std;
 
 bool Validador::validarEntero(const std::string &entrada, int &resultado, int min, int max)
 {
@@ -46,7 +47,7 @@ std::string Validador::leerEntradaSegura(const std::string &prompt, bool permiti
     std::string entrada;
     do
     {
-        std::cout << InterfazMejorada::CYAN << prompt << InterfazMejorada::RESET;
+        cout << InterfazMejorada::CYAN << prompt << InterfazMejorada::RESET;
         std::getline(std::cin, entrada);
 
         if (permitirVacio || validarCadenaNoVacia(entrada))
